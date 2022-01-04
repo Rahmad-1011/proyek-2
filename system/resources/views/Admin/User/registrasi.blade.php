@@ -1,106 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Marketplace Oleh-oleh Khas Ketapang</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Colorlib Templates">
+    <meta name="author" content="Colorlib">
+    <meta name="keywords" content="Colorlib Templates">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Title Page-->
+    <title>Registrasi Marketplace Oleh-oleh Khas Ketapang</title>
+
+    <!-- Icons font CSS-->
+    <link href="{{url('public')}}/Registrasi/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="{{url('public')}}/Registrasi/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="{{url('public')}}/Registrasi/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="{{url('public')}}/Registrasi/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="{{url('public')}}/Registrasi/css/main.css" rel="stylesheet" media="all">
 </head>
-<body class="hold-transition register-page">
-<div class="register-box" style="width: 500px;">
-  <div class="register-logo">
-    <a href="#"><b>ADMIN</b><br><b>MAOK</b></a>
-  </div>
 
-  <div class="card">
-    <div class="card-body register-card-body">
-      <p class="login-box-msg">Register a new membership</p>
-
-      <form action="{{url('Admin/user')}}" method="post">
-        @csrf
-        <div class="input-group mb-3" style="margin-right: 50px;">
-          <input type="hidden" name="level" value="0">
-        </div>
-        <div class="input-group mb-3">
-          <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" placeholder="Nama Lengkap" required>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-              @error('nama')
-              <div class="invalid-feedback">
-                {{$message}}
-              </div>
-              @enderror
+<body>
+    <div class="page-wrapper p-t-180 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w780">
+            <div class="card card-3">
+                <div class="card-heading"></div>
+                <div class="card-body">
+                    <h2 class="title">Registration Info</h2>
+                    <form method="post" action="{{url('Admin/user')}}">
+                      @csrf
+                        <div class="input-group">
+                            <input class="input--style-3" type="text" placeholder="Name" name="nama">
+                        </div>
+                        <div class="input-group">
+                            <input class="input--style-3" type="email" placeholder="Email" name="email">
+                        </div>
+                        <div class="input-group">
+                            <input class="input--style-3" type="password" placeholder="Password" name="password">
+                        </div>
+                          <input type="hidden" name="level" value="0">
+                        <div class="p-t-10">
+                            <button class="btn btn--pill btn--green" type="submit">Submit</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
-        <div class="input-group mb-3">
-          <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Email" required>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-              @error('email')
-              <div class="invalid-feedback">
-                {{$message}}
-              </div>
-              @enderror
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password" required>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-              @error('password')
-              <div class="invalid-feedback">
-                {{$message}}
-              </div>
-              @enderror
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-              <label for="agreeTerms">
-               I agree to the <a href="#">terms</a>
-              </label>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button class="btn btn-primary btn-block">Register</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
-
-      <a href="{{url('Admin/login')}}" class="text-center">I already have a membership</a>
     </div>
-    <!-- /.form-box -->
-  </div><!-- /.card -->
-</div>
-<!-- /.register-box -->
 
-<!-- jQuery -->
-<script src="{{url('public')}}/Admin/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{url('public')}}/Admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="{{url('public')}}/Admin/dist/js/adminlte.min.js"></script>
-</body>
+    <!-- Jquery JS-->
+    <script src="{{url('public')}}/Registrasi/vendor/jquery/jquery.min.js"></script>
+    <!-- Vendor JS-->
+    <script src="{{url('public')}}/Registrasi/vendor/select2/select2.min.js"></script>
+    <script src="{{url('public')}}/Registrasi/vendor/datepicker/moment.min.js"></script>
+    <script src="{{url('public')}}/Registrasi/vendor/datepicker/daterangepicker.js"></script>
+
+    <!-- Main JS-->
+    <script src="{{url('public')}}/Registrasi/js/global.js"></script>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+
 </html>
+<!-- end document-->

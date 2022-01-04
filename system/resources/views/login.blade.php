@@ -1,77 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Marketplace Oleh-Oleh Khas Ketapang</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MAOK-Login</title>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{{url('public')}}/Pendaftaran/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{url('public')}}/Pendaftaran/css/style.css">
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  @include('Admin.template.utils.notif')
-  <div class="login-logo">
-    <a href="#"><b>MARKETPLACE</b><br><b>OLEH-OLEH KHAS KETAPANG</b></a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg"><b>Login Disini</b></p>
+<body>
 
-      <form action="{{url('/maok/login')}}" method="post">
-        @csrf
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="email" autofocus>
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
-      <!-- /.social-auth-links -->
+    <div class="main">
 
-      <p class="mb-0">
-        <small class="d-block text-center mt-3">Belum mendaftar? <a href="{{url('Toko/registrasi')}}"> Daftar Akun Toko disini!</a> <br> <a href="{{url('Pembeli/registrasi')}}"> Daftar Akun Pembeli disini!</a></small>
-      </p>
+        <section class="signup">
+            <!-- <img src="images/signup-bg.jpg" alt=""> -->
+            <div class="container">
+                <div class="signup-content">
+                    <form action="{{url('maok/login')}}" method="POST" id="signup-form" class="signup-form">
+                        @csrf
+                        <h2 class="form-title">
+                            Selamat Datang Di <br>
+                            <span><img src="{{url('public')}}/Client/images/home/Logo MAOK.png" alt="" style="width: 175px;"></span>
+                        </h2>
+                        @include('Admin.template.utils.notif')
+                        <div class="form-group">
+                            <input type="email" class="form-input" name="email" id="email" placeholder="Email Anda" @error('email') is-invalid @enderror required value="{{old('email')}}"/>
+                            @error('email')
+                            <label>
+                                <div class="invalid-feedback" style="color: #FF0000">
+                                    {{$message}}
+                                </div>
+                            </label>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Password" @error('password') is-invalid @enderror required/>
+                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                            @error('password')
+                            <label>
+                                <div class="invalid-feedback" style="color: #FF0000">
+                                    {{$message}}
+                                </div>
+                            </label>
+                            @enderror
+                        </div>
+                        <input type="hidden" name="level" value="1">
+                        <div class="form-group">
+                            <input type="submit" name="submit" id="submit" class="form-submit" value="Login"/>
+                        </div>
+                    </form>
+                    <p class="loginhere">
+                        Belum Punya Akun ? <a href="{{url('Pembeli/registrasi')}}" class="loginhere-link">Daftar Sekarang</a>
+                    <br>
+                        Anda Pemilik Toko ? <a href="{{url('Toko/registrasi')}}" class="loginhere-link">Daftar Sekarang</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+
     </div>
-    <!-- /.login-card-body -->
-  </div>
-</div>
-<!-- /.login-box -->
 
-<!-- jQuery -->
-<script src="{{url('public')}}/Admin/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{url('public')}}/Admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="{{url('public')}}/Admin/dist/js/adminlte.min.js"></script>
+    <!-- JS -->
+    <script src="{{url('public')}}/Pendaftaran/vendor/jquery/jquery.min.js"></script>
+    <script src="{{url('public')}}/Pendaftaran/js/main.js"></script>
 
-</body>
+
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

@@ -18,10 +18,6 @@ trait ProdukAttributes{
 	}
 	function handleDeleteFoto(){
 		$foto = $this->foto;
-		$path = public_path($foto);
-		if(file_exists($path)){
-			unlink($path);
-		}
 		return true;
 	}
 }

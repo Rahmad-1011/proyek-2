@@ -14,10 +14,10 @@
 		<div class="col-md-8 mt-5">
 			<div class="card">
 				<div  class="card-header">
-					<b>Tambah Data Produk</b>
+					<b>Edit Data Produk</b>
 				</div>
 					<div class="card-body">
-						<form action="{{url('Toko/produk', $produk->id)}}" method="post">
+						<form action="{{url('Toko/produk', $produk->id)}}" method="post" enctype="multipart/form-data">
 						@csrf
 						@method("PUT")
 						<div class="row">
@@ -38,10 +38,16 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-6">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label for="" class="control-label"><b>Harga</b></label>
 							<input type="text" class="form-control" name="harga" value="{{$produk->harga}}">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label for="" class="control-label"> Foto </label>
+							<input type="file" class="form-control" name="foto" accept="image/*">
 						</div>
 					</div>
 					<div class="col-md-3">

@@ -48,12 +48,49 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('/Admin/user')}}" class="nav-link {{request()->is('Admin/user*') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{url('/Admin/pembayaran')}}" class="nav-link {{request()->is('Admin/pembayaran*') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-money-check-alt"></i>
               <p>
-                User
+                Metode Pembayaran
               </p>
             </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url('/Admin/kurir')}}" class="nav-link {{request()->is('Admin/kurir*') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-truck-moving"></i>
+              <p>
+                Kurir
+              </p>
+            </a>
+          </li>
+          <li class="nav-item has-treeview {{request()->is('') ? 'menu-open' : ''}}">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Users
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview" style="margin-left: 10px; background-color: #B0C4DE; border-radius: 5%;">
+              <li class="nav-item">
+                <a href="{{url('Admin/0')}}" class="nav-link {{request()->is('Admin/0') ? 'active' : ''}}" style="color: #008080;">
+                  <i class="fas fa-user-shield nav-icon"></i>
+                  <p>Admin</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('Admin/toko')}}" class="nav-link {{request()->is('Admin/toko*') ? 'active' : ''}}" style="color: #008080;">
+                  <i class="fas fa-store nav-icon"></i>
+                  <p>Toko</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('Admin/pembeli')}}" class="nav-link {{request()->is('Admin/pembeli') ? 'active' : ''}}" style="color: #008080;">
+                  <i class="fas fa-child nav-icon"></i>
+                  <p>Pembeli</p>
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>

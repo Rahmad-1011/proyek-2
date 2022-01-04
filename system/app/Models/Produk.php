@@ -15,7 +15,6 @@ class Produk extends Model{
 	protected $casts = [
 		'created_at' => 'datetime',
 		'updated_at' => 'datetime',
-		'berat' =>'decimal:2',
 	];
 	
 }

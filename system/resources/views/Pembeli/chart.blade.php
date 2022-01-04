@@ -14,58 +14,73 @@
 
 	<section id="cart_items">
 		<div class="container">
-			<div class="breadcrumbs">
-				<ol class="breadcrumb">
-				  <li><a href="{{url('/beranda')}}">Home</a></li>
-				  <li class="active">Checkout</li>
-				</ol>
-			</div>
+			<nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{url('beranda')}}">Beranda</a></li>
+                        <li class="breadcrumb-item"><a href="{{url('produk')}}">Produk</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Keranjang</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav>
 				@include('Pembeli.template.utils.notif')
 					@if(!empty($pesanan))
 					<p align="right">Tanggal Pesanan : {{$pesanan->tanggal}}</p>
-					<div class="table-responsive cart_info">
-						<table class="table table-condensed">
+					<div class="col-lg-12">
+						<table class="table table-cart table-mobile">
 							<thead>
 								<tr class="cart_menu">
-									<td class="image">No</td>
-									<td class="description"></td>
-									<td class="price">Price</td>
-									<td class="quantity">Quantity</td>
-									<td class="total">Total</td>
-									<td>Aksi</td>
+									<td></td>
+									<td>Produk</td>
+									<td>Harga</td>
+									<td>Jumlah</td>
+									<td>Total</td>
+									<td></td>
 								</tr>
 							</thead>
 							<tbody>
 								@foreach($pesanan_details as $pesanan_detail)
 								<tr>
-									<td class="cart_product">
-										{{$loop->iteration}}
+									<td>
+										<input type="checkbox" name="status" value="1">
 									</td>
-									<td class="cart_description">
-										<h4><a href="">{{$pesanan_detail->produk->nama}}</a></h4>
-										<p>{{$pesanan_detail->produk->kategori->nama}}</p>
+									<td class="product-col">
+										<div class="product">
+											<figure class="product-media">
+												<a href="">
+													<img style="width: 80px; height: 80px;" src="{{url('public')}}/{{$pesanan_detail->produk->foto}}" class="img-fluid">
+												</a>
+											</figure>
+
+											<h3 class="product-title">
+												<a href="#">{{$pesanan_detail->produk->nama}}</a>
+												<p>{{$pesanan_detail->produk->kategori->nama}}</p>
+											</h3><!-- End .product-title -->
+										</div><!-- End .product -->
 									</td>
 									<td class="cart_price">
 										<p>Rp. {{number_format($pesanan_detail->produk->harga)}}</p>
 									</td>
 									<td class="cart_quantity">
-										<p>{{$pesanan_detail->jumlah}} pcs</p>
+										<p>{{$pesanan_detail->jumlah}} pcs / {{$pesanan_detail->produk->berat}}gr</p>
 									</td>
 									<td class="cart_total">
 										<p>Rp. {{number_format($pesanan_detail->jumlah_harga)}}</p>
 									</td>
-									<td>
-										@include('Pembeli.template.utils.delete', ['url'=>url('checkout', $pesanan_detail->id)])
+									<td class="remove-col">
+										<form action="{{url('keranjang', $pesanan_detail->id)}}" method="post" class="form-inline" onsubmit="return confirm('Yakin Akan Menghapus Data Ini?')">
+											@csrf
+											@method("delete")
+										<button class="btn-remove"><i class="icon-close"></i></button>
+										</form>
 									</td>
-									
 								</tr>
 								@endforeach
 								<tr>
-									<td colspan="4" align="right"><strong>Total Harga: </strong></td>
-									<td><strong><p class="cart_total_price">Rp. {{number_format($pesanan->jumlah_harga)}}</p></strong></td>
+									<td colspan="2" align="right"><strong>Total Harga : </strong></td>
+									<td><strong> Rp. {{number_format($pesanan->jumlah_harga)}}</strong></td>
 									<td>
-										<a href="konfirmasi-checkout" class="btn btn-warning"><i class="fa fa-shopping-cart"></i> Checkout
-										</a>
+										<a href="{{url('konfirmasi-checkout')}}" class="btn btn-outline-primary-2 btn-order btn-block">LANJUT PESANAN</a>
 									</td>
 								</tr>
 							</tbody>

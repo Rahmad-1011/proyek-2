@@ -18,9 +18,9 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3>{{$produk->count()}}</h3>
 
-                <p>New Orders</p>
+                <p>Jumlah Semua Produk</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -33,14 +33,14 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">%</sup></h3>
+                <h3>{{$toko->count()}}</h3>
 
-                <p>Bounce Rate</p>
+                <p>Toko Yang Terdaftar</p>
               </div>
               <div class="icon">
-                <i class="ion ion-stats-bars"></i>
+                <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{url('Admin/toko')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -48,14 +48,14 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>{{$pembeli->count()}}</h3>
 
-                <p>User Registrations</p>
+                <p>Pembeli Yang Terdaftar</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{url('Admin/pembeli')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -63,16 +63,32 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>69</h3>
+                <h3>{{$kategori->count()}}</h3>
                 <p>Jumlah Kategori</p>
               </div>
               <div class="icon">
-                <i class="ion ion-pie-graph"></i>
+                <i class="ion ion-filing"></i>
               </div>
               <a href="{{url('Admin/kategori')}}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
+        </div>
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h4>Edit Slider Beranda Client</h4>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <a href="{{url('Admin/slider')}}">
+                    <div class="btn btn-warning"><i class="fa fa-edit"></i> Edit Slider Beranda 1</div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
     </section>

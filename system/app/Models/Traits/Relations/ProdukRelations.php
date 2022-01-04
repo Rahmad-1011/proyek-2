@@ -4,6 +4,8 @@ namespace App\Models\Traits\Relations;
 
 use App\Models\User;
 use App\Models\Kategori;
+use App\Models\Komentar;
+
 use App\Models\PesananDetail;
 
 
@@ -16,5 +18,8 @@ trait ProdukRelations{
 	}
 	function pesanan_detail(){
 		return $this->hasMany(PesananDetail::class, 'produk_id', 'id');
+	}
+	function komentar(){
+		return $this->hasMany(Komentar::class);
 	}
 }

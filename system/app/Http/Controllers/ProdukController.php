@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 use App\Models\Produk;
+use Auth;
 use App\Models\User;
 use App\Models\Kategori;
 
 class produkcontroller extends Controller {
 	function index(){
+		$data['user'] = User::where('id', Auth::user()->id)->first();
 		$user = request()->user();
 		$data['list_produk'] = $user->produk;
 		$data['list_kategori'] = Kategori::all();
@@ -14,6 +16,7 @@ class produkcontroller extends Controller {
 	}
 
 	function create(){
+		$data['user'] = User::where('id', Auth::user()->id)->first();
 		$data['list_kategori'] = Kategori::all();
 		return view('Toko.Produk.create', $data);
 
@@ -27,7 +30,6 @@ class produkcontroller extends Controller {
 		$produk-> harga = request('harga');
 		$produk-> berat = request('berat');
 		$produk-> stok = request('stok');
-		$produk-> tgl_exp = request('tgl_exp');
 		$produk-> deskripsi = request('deskripsi');
 		$produk->handleUploadFoto();
 
@@ -39,12 +41,14 @@ class produkcontroller extends Controller {
 	}
 
 	function show(Produk $produk){
+		$data['user'] = User::where('id', Auth::user()->id)->first();
 		$data['produk'] = $produk;
 		return view('Toko.Produk.show', $data);
 
 	}
 
 	function edit(Produk $produk){
+		$data['user'] = User::where('id', Auth::user()->id)->first();
 		$data['list_kategori'] = Kategori::all();
 		$data['produk'] = $produk;
 		return view('Toko.Produk.edit', $data);
@@ -55,7 +59,6 @@ class produkcontroller extends Controller {
 		$produk-> harga = request('harga');
 		$produk-> berat = request('berat');
 		$produk-> stok = request('stok');
-		$produk-> tgl_exp = request('tgl_exp');
 		$produk-> deskripsi = request('deskripsi');
 		$produk->handleUploadFoto();
 		$produk-> save();

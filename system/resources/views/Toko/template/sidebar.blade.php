@@ -45,9 +45,17 @@
           </li>
           <li class="nav-item">
             <a href="{{url('Toko/produk')}}" class="nav-link {{request()->is('Toko/produk*') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-boxes"></i>
               <p>
                 Produk
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{url('Toko/komentar')}}" class="nav-link {{request()->is('Toko/komentar*') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-comments"></i>
+              <p>
+                Komentar Produk
               </p>
             </a>
           </li>

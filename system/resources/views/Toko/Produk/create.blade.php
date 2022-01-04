@@ -58,10 +58,9 @@
 					<div class="form-group">
 							<label for="" class="control-label"><b>Deskripsi</b></label>
 							<textarea name="deskripsi" id="deskripsi" class="form-control"></textarea>
-						</div>
-						<button class="btn btn-dark float-right"><i class="fa fa-save"></i> Simpan</button>
-						</form>
 					</div>
+						<button class="btn btn-dark float-right"><i class="fa fa-save"></i> Simpan</button>
+					</form>
 				</div>
 			</div>
 		</div>

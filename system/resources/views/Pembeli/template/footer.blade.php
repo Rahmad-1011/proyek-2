@@ -1,75 +1,91 @@
-  <footer id="footer"><!--Footer-->
-    <div class="footer-widget">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-2">
-            <div class="single-widget">
-              <h2>Service</h2>
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#">Online Help</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Order Status</a></li>
-                <li><a href="#">Change Location</a></li>
-                <li><a href="#">FAQ’s</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="single-widget">
-              <h2>Quock Shop</h2>
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#">T-Shirt</a></li>
-                <li><a href="#">Mens</a></li>
-                <li><a href="#">Womens</a></li>
-                <li><a href="#">Gift Cards</a></li>
-                <li><a href="#">Shoes</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="single-widget">
-              <h2>Policies</h2>
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#">Terms of Use</a></li>
-                <li><a href="#">Privecy Policy</a></li>
-                <li><a href="#">Refund Policy</a></li>
-                <li><a href="#">Billing System</a></li>
-                <li><a href="#">Ticket System</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-2">
-            <div class="single-widget">
-              <h2>About Shopper</h2>
-              <ul class="nav nav-pills nav-stacked">
-                <li><a href="#">Company Information</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Store Location</a></li>
-                <li><a href="#">Affillate Program</a></li>
-                <li><a href="#">Copyright</a></li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-sm-3 col-sm-offset-1">
-            <div class="single-widget">
-              <h2>About Shopper</h2>
-              <form action="#" class="searchform">
-                <input type="text" placeholder="Your email address" />
-                <button type="submit" class="btn btn-default"><i class="fa fa-arrow-circle-o-right"></i></button>
-                <p>Get the most recent updates from <br />our site and be updated your self...</p>
-              </form>
-            </div>
-          </div>   
-        </div>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <div class="container">
-        <div class="row">
-          <p class="pull-left">Copyright © 2021 MAOK Inc. All rights reserved.</p>
-        </div>
-      </div>
-    </div>
-    
-  </footer><!--/Footer-->
+<footer class="footer footer-2">
+          <div class="footer-middle">
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+                    <div class="widget widget-about">
+                      <img src="{{url('public')}}/Client/images/home/Logo MAOK.png" alt="" style="width: 180px;" />
+                      <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. </p>
+                      
+                      <div class="widget-about-info">
+                        <div class="row">
+                          <div class="col-sm-6 col-md-4">
+                            <span class="widget-about-title">Got Question? Call us 24/7</span>
+                            <a href="tel:123456789">+0123 456 789</a>
+                          </div><!-- End .col-sm-6 -->
+                          <div class="col-sm-6 col-md-8">
+                            <span class="widget-about-title">Payment Method</span>
+                            <figure class="footer-payments">
+                            <img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+                          </figure><!-- End .footer-payments -->
+                          </div><!-- End .col-sm-6 -->
+                        </div><!-- End .row -->
+                      </div><!-- End .widget-about-info -->
+                    </div><!-- End .widget about-widget -->
+                  </div><!-- End .col-sm-12 col-lg-3 -->
+
+                  <div class="col-sm-4 col-lg-2">
+                    <div class="widget">
+                      <h4 class="widget-title">Information</h4><!-- End .widget-title -->
+
+                      <ul class="widget-list">
+                        <li><a href="about.html">About Molla</a></li>
+                        <li><a href="#">How to shop on Molla</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="contact.html">Contact us</a></li>
+                        <li><a href="login.html">Log in</a></li>
+                      </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                  </div><!-- End .col-sm-4 col-lg-3 -->
+
+                  <div class="col-sm-4 col-lg-2">
+                    <div class="widget">
+                      <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+                      <ul class="widget-list">
+                        <li><a href="#">Payment Methods</a></li>
+                        <li><a href="#">Money-back guarantee!</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Terms and conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                      </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                  </div><!-- End .col-sm-4 col-lg-3 -->
+
+                  <div class="col-sm-4 col-lg-2">
+                    <div class="widget">
+                      <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+                      <ul class="widget-list">
+                        <li><a href="#">Sign In</a></li>
+                        <li><a href="cart.html">View Cart</a></li>
+                        <li><a href="#">My Wishlist</a></li>
+                        <li><a href="#">Track My Order</a></li>
+                        <li><a href="#">Help</a></li>
+                      </ul><!-- End .widget-list -->
+                    </div><!-- End .widget -->
+                  </div><!-- End .col-sm-64 col-lg-3 -->
+                </div><!-- End .row -->
+              </div><!-- End .container -->
+          </div><!-- End .footer-middle -->
+
+          <div class="footer-bottom">
+            <div class="container">
+              <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+              <ul class="footer-menu">
+                <li><a href="#">Terms Of Use</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+              </ul><!-- End .footer-menu -->
+
+              <div class="social-icons social-icons-color">
+                <span class="social-label">Social Media</span>
+              <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+              <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+              <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+              <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+              <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+            </div><!-- End .soial-icons -->
+            </div><!-- End .container -->
+          </div><!-- End .footer-bottom -->
+        </footer>

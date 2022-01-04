@@ -18,7 +18,7 @@
 						              <div class="card-body box-profile">
 						                <div class="text-center">
 						                	@if(!empty($user->foto))
-						                  		<img style="width: 100%; height: 280px;" src="{{url("public/$user->foto")}}" class="img-fluid">
+						                  		<img src="{{url("public/$user->foto")}}" class="img-fluid">
 						                  	@else
 						                  		<img src="{{url('public')}}/Admin/assets/img/user.png">
 						                	@endif
@@ -37,7 +37,7 @@
 						          </div>
 					      	</div>
 					      	<div class="col-md-4">
-						            <div class="card card-primary card-outline">
+						            <div class="card card-success card-outline">
 						              <div class="card-body box-profile">
 						                <p class="text">No HP : {{$user->no_hp}}</p>
 
@@ -46,7 +46,7 @@
 						          </div>
 					      	</div>
 					        <div class="col-md-4">
-					        	<div class="card">
+					        	<div class="card card-warning card-outline">
 						            <div class="card-header p-2">
 						             	<h3>Edit Profile</h3>
 						            </div>
@@ -64,20 +64,19 @@
 											<label for="" class="control-label"><b>Alamat</b></label>
 											<textarea class="form-control" name="alamat" value="{{$user->alamat}}"></textarea>
 										</div>
-								        <div class="form-group">
-											<label for="" class="control-label"><b>Email</b></label>
-											<input type="email" class="form-control" value="{{$user->email}}" name="email">
-										</div>
-										<div class="form-group">
-											<label for="" class="control-label"><b>Password Baru*</b></label>
-											<input type="password" class="form-control" name="password" placeholder="Password">
-										</div>
 								        <div class="row">
-								          <div class="col-md-4">
-								            <button type="submit" class="btn btn-primary btn-block">Edit</button>
+								          <div class="col-md-6">
+								            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Simpan</button>
 								          </div>
 								        </div>
 								      </form>
+					                </div>
+					                <div class="col-md-12 mt-2">
+					                	<div class="row">
+					                		<a href="{{url('Toko/ganti-password')}}">
+					                			<div class="btn btn-success"><i class="fa fa-key"></i> Ganti Password</div>
+					                		</a>
+					                	</div>
 					                </div>
 					              </div>
 					        	</div>

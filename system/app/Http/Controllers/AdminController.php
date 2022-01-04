@@ -4,16 +4,67 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Produk;
+use App\Models\Kategori;
+use App\Models\Gambar;
 
 class AdminController extends Controller
 {
     public function beranda(User $user){
     	$data['user'] = $user;
+        $data['produk'] = Produk::all();
+        $data['toko'] = User::where('level',1)->get();
+        $data['pembeli'] = User::where('level',2)->get();
+        $data['kategori'] = Kategori::all();
         return view('Admin.beranda', $data);
     }
 
     public function profil(User $user){
     	$data['user'] = $user;
         return view('Admin.User.profil', $data);
+    }
+
+    public function Admin(){
+        $data['list_user'] = User::where('level', 0)->get();
+        return view('Admin.User.beranda', $data);
+    }
+    public function Toko(){
+        $data['list_user'] = User::where('level', 1)->get();
+        return view('Admin.User.beranda-toko', $data);
+    }
+    public function Pembeli(){
+        $data['list_user'] = User::where('level', 2)->get();
+        return view('Admin.User.beranda-pembeli', $data);
+    }
+
+    public function DetailToko(User $user){
+        $data['user'] = $user;
+        $data['list_produk'] = $user->produk;
+        return view('Admin.User.show', $data);
+    }
+
+    public function DetailProduk(Produk $produk){
+        $data['produk'] = $produk;
+        return view('Admin.User.produk', $data);
+    }
+    public function HapusProduk(Produk $produk){
+        $produk->handleDeleteFoto();
+        $produk->delete();
+
+        return redirect()->back()-> with('danger', 'Data berhasil dihapus');
+    }
+
+    public function Slider(){
+        $data['gambar'] = Gambar::all();
+        return view('Admin.Slider.index', $data);
+    }
+    public function EditSlider(){
+        $gambar = new gambar;
+        $gambar->handleUploadSlider1();
+        $gambar->handleUploadSlider2();
+        $gambar->handleUploadSlider3();
+        $gambar->save();
+
+        return redirect()->back()->with('success', 'Slider Berhasil Di Tambah');
     }
 }

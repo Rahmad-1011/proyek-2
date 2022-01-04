@@ -2,8 +2,8 @@
 
 @section ('content')
 <div class="container-fluid">
-	<div class="row mt-5">
-		<div class="col-md-8">
+	<div class="row">
+		<div class="col-md-8 mt-3">
 			<div class="card">
 				<div class="card-header">
 					Detail Produk
@@ -11,7 +11,7 @@
 					<h2>{{$produk -> nama}}</h2>
 					<hr>
 					<p>
-						<h3><b>{{($produk->harga)}}</b></h3> <br>
+						<h3><b>Rp. {{number_format($produk->harga)}}</b></h3> <br>
 					
 				
 						Stok : {{($produk->stok)}}  | <br>
@@ -19,7 +19,7 @@
 				
 						Berat : {{($produk->berat)}} Kg | <br>
 
-						Seller : {{($produk->penjual->nama)}}  |
+						Seller : {{($produk->seller->nama)}}  |
 
 						Kategori : {{($produk->kategori->nama)}}  | <br>
 
@@ -33,7 +33,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-md-4 mt-5">
+	<div class="col-md-4 mt-3">
 		<div class="card">
 			<div class="card-body">
 				<img style="width: 100%;" src="{{url("public/$produk->foto")}}" class="img-fluid">

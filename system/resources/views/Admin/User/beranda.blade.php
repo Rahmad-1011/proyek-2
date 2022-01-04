@@ -7,7 +7,7 @@
       <div class="col-md-12 mt-5">
         <div class="card">
           <div  class="card-header" style="color: #067D68; font-family: Arial;">
-            <h2><b>User</b></h2>
+            <h2><b>Admin</b></h2>
           </div>
           <div class="card-body">
             <table class="table table-striped" style="background-color: #50d5b7; color: #FFF" >
@@ -23,7 +23,7 @@
                 <td>{{$loop->iteration}}</td>
                 <td>
                   <div class="btn-group">
-                    <a href="{{url('Admin/user', $user->id)}}" class="btn btn-primary" style="width: 40px; border-radius: 5px;"><i class="fa fa-info"></i></a>
+                    <a href="{{url('Admin/0', $user->id)}}" class="btn btn-primary" style="width: 40px; border-radius: 5px;"><i class="fa fa-info"></i></a>
                     @include('Admin.template.utils.delete', ['url'=>url('Admin/user', $user->id)])
                   </div>
                 </td>

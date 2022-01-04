@@ -1,6 +1,12 @@
-<script src="{{url('public')}}/Client/js/jquery.js"></script>
-  <script src="{{url('public')}}/Client/js/bootstrap.min.js"></script>
-  <script src="{{url('public')}}/Client/js/jquery.scrollUp.min.js"></script>
-  <script src="{{url('public')}}/Client/js/price-range.js"></script>
-  <script src="{{url('public')}}/Client/js/jquery.prettyPhoto.js"></script>
-  <script src="{{url('public')}}/Client/js/main.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/jquery.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/bootstrap.bundle.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/jquery.waypoints.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/superfish.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/owl.carousel.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/jquery.plugin.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/jquery.countdown.min.js"></script>
+    <!-- Main JS File -->
+    <script src="{{url('public')}}/Client/assets/js/main.js"></script>
+    <script src="{{url('public')}}/Client/assets/js/demos/demo-2.js"></script>

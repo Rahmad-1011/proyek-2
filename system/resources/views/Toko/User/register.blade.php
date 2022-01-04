@@ -1,91 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Marketplace Oleh-oleh Khas Ketapang</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MAOK-Mendaftar</title>
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/plugins/fontawesome-free/css/all.min.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{url('public')}}/Admin/dist/css/adminlte.min.css">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="{{url('public')}}/Pendaftaran/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{url('public')}}/Pendaftaran/css/style.css">
 </head>
-<body class="hold-transition register-page">
-<div class="register-box" style="width: 500px;">
-  <div class="register-logo">
-    <a href="#"><b>TOKO</b><br><b>MAOK</b></a>
-  </div>
+<body>
 
-  <div class="card">
-    <div class="card-body register-card-body">
-      <p class="login-box-msg">Register a new membership</p>
+    <div class="main">
 
-      <form action="{{url('Toko/user')}}" method="post">
-        @csrf
-        <div class="input-group mb-3" style="margin-right: 50px;">
-          <input type="hidden" name="level" value="1">
-        </div>
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" name="nama" placeholder="Nama Lengkap">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+        <section class="signup">
+            <!-- <img src="images/signup-bg.jpg" alt=""> -->
+            <div class="container">
+                <div class="signup-content">
+                    <form action="{{url('Toko/user')}}" method="POST" id="signup-form" class="signup-form">
+                        @csrf
+                        <h2 class="form-title">
+                            Selamat Datang Toko <br>
+                        Oleh-oleh Khas Ketapang
+                        </h2>
+                        <div class="form-group">
+                            <input type="text" class="form-input" name="nama" id="name" placeholder="Nama Toko" @error('nama') is-invalid @enderror required value="{{old('nama')}}"/>
+                            @error('nama')
+                            <label>
+                                <div class="invalid-feedback" style="color: #FF0000">
+                                    <b>{{$message}}</b>
+                                </div>
+                            </label>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="email" class="form-input" name="email" id="email" placeholder="Email Anda" @error('email') is-invalid @enderror required value="{{old('email')}}"/>
+                            @error('email')
+                            <label>
+                                <div class="invalid-feedback" style="color: #FF0000">
+                                    <b>{{$message}}</b>
+                                </div>
+                            </label>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-input" name="password" id="password" placeholder="Password" @error('password') is-invalid @enderror required/>
+                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                            @error('password')
+                            <label>
+                                <div class="invalid-feedback" style="color: #FF0000">
+                                    <b>{{$message}}</b>
+                                </div>
+                            </label>
+                            @enderror
+                        </div>
+                        <input type="hidden" name="level" value="1">
+                        <div class="form-group">
+                            <input type="submit" name="submit" id="submit" class="form-submit" value="Daftar Sekarang"/>
+                        </div>
+                    </form>
+                    <p class="loginhere">
+                        Sudah Punya Akun ? <a href="{{url('maok/login')}}" class="loginhere-link">Login Disini</a>
+                    </p>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" placeholder="Password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="agreeTerms" name="terms" value="agree">
-              <label for="agreeTerms">
-               I agree to the <a href="#">terms</a>
-              </label>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
+        </section>
 
-      <a href="{{url('Admin/login')}}" class="text-center">I already have a membership</a>
     </div>
-    <!-- /.form-box -->
-  </div><!-- /.card -->
-</div>
-<!-- /.register-box -->
 
-<!-- jQuery -->
-<script src="{{url('public')}}/Admin/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{url('public')}}/Admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="{{url('public')}}/Admin/dist/js/adminlte.min.js"></script>
-</body>
+    <!-- JS -->
+    <script src="{{url('public')}}/Pendaftaran/vendor/jquery/jquery.min.js"></script>
+    <script src="{{url('public')}}/Pendaftaran/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
