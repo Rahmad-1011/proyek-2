@@ -74,22 +74,6 @@
           </div>
           <!-- ./col -->
         </div>
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h4>Edit Slider Beranda Client</h4>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-4">
-                  <a href="{{url('Admin/slider')}}">
-                    <div class="btn btn-warning"><i class="fa fa-edit"></i> Edit Slider Beranda 1</div>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
     </section>
 

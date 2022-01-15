@@ -33,8 +33,17 @@
                             </div>
 
                             <h3 class="profile-username">{{$user->nama}}</h3>
-
-                            <p class="text-muted">{{$user->email}}</p>
+                            <p><b>Email:</b> 
+                              <a href="mailto:{{$user->email}}">
+                                {{$user->email}}
+                              </a>
+                            </p>
+                            <br>
+                            <p>
+                              <b>No. Telp:</b> {{$user->no_hp}}
+                            </p>
+                            <br>
+                            <p><b>Alamat:</b> {!!nl2br($user->alamat)!!}</p>
                           </div>
 
                           <!-- /.card-body -->
@@ -43,26 +52,40 @@
                         <div class="card-header" style="margin-top: 10px;">
                           <h2 class="title text-center">Produk</h2>
                         </div>
-                        @foreach($list_produk as $produk)
-                          <div class="col-sm-4">
-                            <div class="product-image-wrapper">
-                              <div class="single-products">
-                                  <div class="productinfo text-center">
-                                    <img style="width: 100%; height: 150px;" src="{{url("public/$produk->foto")}}" class="img-fluid">
-                                    <h2>Rp. {{number_format($produk->harga)}}</h2>
-                                    <p><b>{{$produk->nama}}</b></p>
-                                  </div>
-                              <div class="product-overlay">
-                            <div class="overlay-content">
-                              <h2>Rp. {{number_format($produk->harga)}}</h2>
-                              <p><b>{{$produk->nama}}</b></p>
-                              <a href="{{url('/produk', $produk->id)}}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Cek Disini</a>
+                        <div class="products mb-3">
+                                <div class="row justify-content-left">
+                                  @foreach($list_produk as $produk)
+                                    <div class="col-6 col-md-4 col-lg-4 col-xl-4">
+                                        <div class="product product-7 text-center">
+                                            <figure class="product-media">
+                                                <a href="{{url('produk', $produk->id)}}">
+                                                    <img style="width: 100%; height: 210px;" src="{{url("public/$produk->foto")}}" class="img-fluid">
+                                                </a>
+ 
+                                                <div class="product-action">
+                                                    <a href="{{url('produk', $produk->id)}}" class="btn-product btn-cart"><span>Detail Produk</span></a>
+                                                </div><!-- End .product-action -->
+                                            </figure><!-- End .product-media -->
+
+                                            <div class="product-body">
+                                                <div class="product-cat">
+                                                    <a href="#">{{$produk->kategori->nama}}</a>
+                                                </div><!-- End .product-cat -->
+                                                <h3 class="product-title"><a href="{{url('produk', $produk->id)}}">{{$produk->nama}}</a></h3><!-- End .product-title -->
+                                                <div class="product-price">
+                                                    Rp. {{number_format($produk->harga)}}
+                                                </div><!-- End .product-price -->
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                </div><!-- End .rating-container -->
+                                            </div><!-- End .product-body -->
+                                        </div><!-- End .product -->
+                                    </div><!-- End .col-sm-6 col-lg-4 col-xl-3 -->
+                                    @endforeach
+                                </div><!-- End .row -->
                             </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                      @endforeach
                   </div>
                   </div>
                 </div>

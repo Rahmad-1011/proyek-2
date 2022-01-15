@@ -157,6 +157,7 @@ class ClientController extends Controller
 			$pesanan_detail->pesanan_id = $pesanan_baru->id;
 			$pesanan_detail->jumlah = $request->jumlah_pesanan;
 			$pesanan_detail->jumlah_harga = $produk->harga * $request->jumlah_pesanan;
+			$pesanan_detail->status = 0;
 			$pesanan_detail->save();
 		}else{
 			$pesanan_detail = PesananDetail::where('produk_id', $produk->id)->where('pesanan_id', $pesanan_baru->id)->first();
@@ -234,8 +235,42 @@ class ClientController extends Controller
 		$pesanan->nama_penerima = request('nama_penerima');
 		$pesanan->alamat = request('alamat');
 		$pesanan->kode_pos = request('kode_pos');
-		$pesanan->pembayaran = request('pembayaran_id');
+		$pesanan->no_hp = request('no_hp');
+		$pesanan->pembayaran_id = request('pembayaran_id');
 		$pesanan->status = 2;
+		$pesanan->update();
+
+		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan_id)->get();
+		foreach ($pesanan_details as $pesanan_detail){
+			$produk = Produk::where('id', $pesanan_detail->produk_id)->first();
+			$produk->stok = $produk->stok-$pesanan_detail->jumlah;
+			$produk->update();
+		}
+
+		return redirect('profile')->with('success', 'Pemesanan Berhasil');
+
+	}
+
+	public function Pembayaran(){
+		$data['list_kategori'] = Kategori::withCount('produk')->get();
+		$data['pesanan'] = Pesanan::where('user_id', Auth::user()->id)->where('status', 2)->first();
+
+		
+
+		if(!empty($data['pesanan'])){
+			$data['pesanan_details'] = PesananDetail::where('pesanan_id', $data['pesanan']->id)->get();
+		}
+		
+		return view('Pembeli.pembayaran', $data);
+	}
+
+	public function KonfirmasiPembayaran(){
+		$pesanan = Pesanan::where('user_id', Auth::user()->id)->where('status', 2)->first();
+
+		$pesanan_id = $pesanan->id;
+		$pesanan->total_harga = $pesanan->jumlah_harga;
+		$pesanan->handleUploadFoto();
+		$pesanan->status = 3;
 		$pesanan->update();
 
 		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan_id)->get();

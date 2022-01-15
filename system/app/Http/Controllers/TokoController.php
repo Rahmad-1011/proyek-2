@@ -8,12 +8,22 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
 use App\Models\Produk;
+use App\Models\Pesanan;
+use App\Models\PesananDetail;
 
 class TokoController extends Controller
 {
     public function beranda(){
         $data['user'] = User::where('id', Auth::user()->id)->first();
         $data['produk'] = $data['user']->produk;
+        $data['pesanan'] = Pesanan::select('pesanan')
+        ->join('pesanan_detail','pesanan_detail.pesanan_id','=','pesanan.id')
+        ->join('produk','produk.id','=','pesanan_detail.produk_id')
+        ->join('users', 'users.id','=','pesanan.user_id')
+        ->select('pesanan.*','produk.*','users.*','pesanan_detail.*','users.nama as nama_pemesan')
+        ->where('pesanan.status',3)
+        ->where('produk.user_id', Auth::id())
+        ->get();
         $data['kategori'] = Kategori::all();
     	
         return view('Toko.beranda', $data);
@@ -77,5 +87,33 @@ class TokoController extends Controller
             return back()->with('danger', 'Password Lama Kosong');
             }
         }
+    }
+
+    function Pesanan(){
+        $data['login'] = Auth::id();
+        $data['list_pesanan'] = Pesanan::select('pesanan')
+        ->join('pesanan_detail','pesanan_detail.pesanan_id','=','pesanan.id')
+        ->join('produk','produk.id','=','pesanan_detail.produk_id')
+        ->join('users', 'users.id','=','pesanan.user_id')
+        ->select('pesanan.*','produk.*','users.*','pesanan_detail.*','users.nama as nama_pemesan', 'pesanan_detail.status as status_pesanan')
+        ->where('pesanan.status',3)
+        ->where('produk.user_id', Auth::id())
+        ->get();
+        return view('Toko.Transaksi.pesanan', $data);
+    }
+
+    function DetailPesanan(Pesanan $pesanan){
+        $data['pesanan'] = $pesanan;
+        if(!empty($data['pesanan'])){
+            $data['pesanan_details'] = PesananDetail::where('pesanan_id', $data['pesanan']->id)->get();
+        }
+        return view('Toko.Transaksi.detail-pesanan', $data);
+    }
+
+    function statusPengiriman(PesananDetail $pesanan_detail){
+        $pesanan_detail->status =  request('status');
+        $pesanan_detail->save();
+        
+        return redirect('Toko/pesanan')->with('success', 'Pesanan berhasil Di kirim');
     }
 }

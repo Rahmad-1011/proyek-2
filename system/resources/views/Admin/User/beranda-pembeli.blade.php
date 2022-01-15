@@ -23,7 +23,6 @@
                 <td>{{$loop->iteration}}</td>
                 <td>
                   <div class="btn-group">
-                    <a href="{{url('Admin/pembeli', $user->id)}}" class="btn btn-primary" style="width: 40px; border-radius: 5px;"><i class="fa fa-info"></i></a>
                     @include('Admin.template.utils.delete', ['url'=>url('Admin/user', $user->id)])
                   </div>
                 </td>

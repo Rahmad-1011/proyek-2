@@ -51,7 +51,7 @@ class PembayaranController extends Controller{
 	}
 
 	function destroy(Pembayaran $pembayaran){
-		$produk->handleDeleteFoto();
+		$pembayaran->handleDeleteFoto();
 		$pembayaran->delete();
 
 		return redirect ('Admin/pembayaran')-> with ('danger', 'Metode Pembayaran berhasil dihapus');

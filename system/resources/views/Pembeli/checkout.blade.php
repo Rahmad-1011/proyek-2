@@ -69,10 +69,6 @@
 		                						<tr class="summary-subtotal">
 		                							<td>Total:</td>
 		                							<td>Rp. {{number_format($pesanan->jumlah_harga)}}</td>
-		                						</tr><!-- End .summary-subtotal -->
-		                						<tr>
-		                							<td>Shipping:</td>
-		                							<td>Free shipping</td>
 		                						</tr>
 		                					</tbody>
 		                					@endforeach
@@ -80,17 +76,17 @@
 
 		                				<div class="accordion-summary" id="accordion-payment">
 		                					
-		                					<select>
-		                						<option> --Pilih Metode Pembayaran-- </option>
+		                					<select name="pembayaran_id" class="form-control" required="">
+		                						<option value="" hidden=""> --Pilih Metode Pembayaran-- </option>
 		                						@foreach($list_pembayaran as $pembayaran)
-		                						<option value="{{$pembayaran->id}}">{{$pembayaran->nama}}</option>
+		                						<option value="{{$pembayaran->id}}">{{$pembayaran->nama}} - Ppn Rp.{{number_format($pembayaran->pajak)}}</option>
 		                						@endforeach
 		                					</select>
 										    
 										    
 										</div><!-- End .accordion -->
 
-		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block" onclick="return confirm('Lanjutkan Pemesanan?')">
 		                					<span class="btn-text">Lengkapi Data</span>
 		                					<span class="btn-hover-text">Pesan Sekarang</span>
 		                				</button>

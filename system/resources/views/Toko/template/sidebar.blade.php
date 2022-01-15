@@ -52,6 +52,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{url('Toko/pesanan')}}" class="nav-link {{request()->is('Toko/pesanan*') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-boxes"></i>
+              <p>
+                Transaksi
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{url('Toko/komentar')}}" class="nav-link {{request()->is('Toko/komentar*') ? 'active' : ''}}">
               <i class="nav-icon fas fa-comments"></i>
               <p>

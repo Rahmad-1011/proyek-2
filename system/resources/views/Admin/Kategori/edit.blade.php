@@ -7,7 +7,7 @@
 		<div class="col-md-12 mt-5">
 			<div class="card">
 				<div  class="card-header">
-					<b>Tambah Kategori</b>
+					<b>Edit Kategori</b>
 				</div>
 					<div class="card-body">
 						<form action="{{url('Admin/kategori', $kategori->id)}}" method="post">

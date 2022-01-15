@@ -56,11 +56,13 @@ Route::group(['middleware'=>['auth']], function(){
 			Route::resource('pembayaran', PembayaranController::class);
 			Route::post('pembayaran/{pembayaran}', [PembayaranController::class, 'update']);
 			Route::get('0', [AdminController::class, 'Admin']);
+			Route::get('0/{user}', [AdminController::class, 'DetailAdmin']);
 			Route::get('toko', [AdminController::class, 'Toko']);
 			Route::get('toko/{user}', [AdminController::class, 'DetailToko']);
 			Route::get('toko/detail-produk/{produk}', [AdminController::class, 'DetailProduk']);
 			Route::delete('toko/hapus-produk/{produk}', [AdminController::class, 'HapusProduk']);
 			Route::get('pembeli', [AdminController::class, 'Pembeli']);
+			Route::get('pembeli/{pembeli}', [AdminController::class, 'DetailPembeli']);
 			Route::get('slider', [AdminController::class, 'Slider']);
 			Route::post('edit-slider', [AdminController::class, 'EditSlider']);
 		});
@@ -78,6 +80,9 @@ Route::group(['middleware'=>['auth']], function(){
 			Route::post('profile', [TokoController::class, 'Update']);
 			Route::get('profile/ganti-password', [TokoController::class, 'GantiPassword']); 
 			Route::post('profile/ganti-password', [ProfileController::class, 'Store']);
+			Route::get('pesanan', [TokoController::class, 'Pesanan']);
+			Route::get('pesanan/{pesanan}', [TokoController::class, 'DetailPesanan']);
+			Route::put('pesanan/{pesanan_detail}/kirim', [TokoController::class, 'statusPengiriman']);
 		});
 	});
 
@@ -104,13 +109,17 @@ Route::group(['middleware'=>['auth']], function(){
 
 		//Profile
 		Route::get('profile', [ProfileController::class, 'Profile']);
-		Route::post('profile', [ProfileController::class, 'Update']);
+		Route::put('profile', [ProfileController::class, 'Update']);
 		Route::get('ganti-password', [ProfileController::class, 'GantiPassword']);
 		Route::post('ganti-password', [ProfileController::class, 'Store']);
 
 		//Pemesanan
 		Route::get('pemesanan', [ClientController::class, 'Pemesanan']);
 		Route::post('konfirmasi-pemesanan', [ClientController::class, 'KonfirmasiPemesanan']);
+
+		//pembayaran
+		Route::get('pembayaran', [ClientController::class, 'Pembayaran']);
+		Route::post('konfirmasi-pembayaran', [ClientController::class, 'KonfirmasiPembayaran']);
 
 
 		Route::get('/list-produk', function () {

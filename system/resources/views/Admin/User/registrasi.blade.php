@@ -31,6 +31,7 @@
         <div class="wrapper wrapper--w780">
             <div class="card card-3">
                 <div class="card-heading"></div>
+                @include('Admin.template.utils.notif')
                 <div class="card-body">
                     <h2 class="title">Registration Info</h2>
                     <form method="post" action="{{url('Admin/user')}}">
@@ -42,7 +43,14 @@
                             <input class="input--style-3" type="email" placeholder="Email" name="email">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-3" type="password" placeholder="Password" name="password">
+                            <input class="input--style-3" type="password" placeholder="Password" name="password" @error('password') is-invalid @enderror>
+                            @error('password')
+                            <label>
+                                <div class="invalid-feedback" style="color: #FF0000">
+                                    {{$message}}
+                                </div>
+                            </label>
+                            @enderror
                         </div>
                           <input type="hidden" name="level" value="0">
                         <div class="p-t-10">

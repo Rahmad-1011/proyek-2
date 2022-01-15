@@ -17,10 +17,10 @@
   <main class="main">
     <div class="intro-slider-container">
                 <div class="owl-carousel owl-simple owl-light owl-nav-inside" data-toggle="owl" data-owl-options='{"nav": false}'>
-                    <div class="intro-slide" style="background-image: url({{url('public')}}/Client/assets/images/demos/demo-2/slider/slide-1.jpg);">
+                    <div class="intro-slide" style="background-image: url({{url('public')}}/Client/assets/images/slide.jpg);">
                         <div class="container intro-content">
-                            <h3 class="intro-subtitle">Bedroom Furniture</h3><!-- End .h3 intro-subtitle -->
-                            <h1 class="intro-title">Find Comfort <br>That Suits You.</h1><!-- End .intro-title -->
+                            <h3 class="intro-subtitle">Produk Oleh-oleh Khas Ketapang</h3><!-- End .h3 intro-subtitle -->
+                            <h1 class="intro-title">Temukan <br>Apa Yang Anda Inginkan</h1><!-- End .intro-title -->
 
                             <a href="category.html" class="btn btn-primary">
                                 <span>Shop Now</span>

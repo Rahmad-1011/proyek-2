@@ -6,9 +6,13 @@
 		<div class="col-md-12 mt-3">
 			<div class="card">
 				<div class="card-header">
-					<h2>Detail Toko</h2>
+					<h2>Detail Toko : {{$user->nama}}</h2>
 				</div>
 				<div class="card-body">
+					<div class="card">
+						Alamat : {!!nl2br($user->alamat)!!} <br>
+						No. Telp : {{$user->no_hp}}
+					</div>
 					<table class="table table-striped" style="background-color: #50d5b7; color: #FFF" >
 			            <thead style="background-color: #067D68; text-align: center;">
 			              <th style="width: 100px;">No</th>

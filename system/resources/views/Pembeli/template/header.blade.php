@@ -7,7 +7,7 @@
               <i class="icon-bars"></i>
         </button>
           <a href="index.html" class="logo">
-            <img src="{{url('public')}}/Client/images/home/Logo MAOK.png" alt="" style="width: 180px;" />
+            <img src="{{url('public')}}/Client/images/home/Logo MAOK.png" alt="" style="width: 90px;" />
               </a>
       </div><!-- End .header-left -->
 
@@ -26,16 +26,28 @@
       </div>
 
         <div class="header-right">
-            <div class="account">
-                <a href="{{url('profile')}}" title="Profil Saya">
-                    <div class="icon">
-                        <i class="icon-user"></i>
-                    </div>
-                    <p>Profile</p>
-                </a>
-            </div><!-- End .compare-dropdown -->
-
+            <?php 
+                $pembayaran = \App\Models\Pesanan::where('user_id', Auth::user()->id)->where('status',2)->first();
+                    if(!empty($pembayaran)){
+                        $notif_pembayaran = \App\Models\PesananDetail::where('pesanan_id', $pembayaran->id)->count();
+                    }
+            ?>
             <div class="dropdown cart-dropdown">
+                <div class="account">
+                    <a href="{{url('profile')}}" title="Profil Saya">
+                        <div class="icon">
+                            <i class="icon-user"></i>
+                                @if(!empty($notif_pembayaran))
+                                <span class="cart-count">
+                                {{$notif_pembayaran}}
+                                </span>
+                                
+                                @endif
+                                
+                        </div>
+                        <p>Profile</p>
+                    </a>
+                </div><!-- End .compare-dropdown -->
                 <?php 
                             $pesanan_utama = \App\Models\Pesanan::where('user_id', Auth::user()->id)->where('status',0)->first();
                             if(!empty($pesanan_utama)){
@@ -57,7 +69,15 @@
                         <p>Keranjang</p>
                         </a>
                     </div>
-            </div><!-- End .cart-dropdown -->
+                    <div class="account">
+                        <a href="{{url('maok/logout')}}" onclick="return confirm('Apakah anda ingin Keluar?')">
+                        <div class="icon">
+                            <i class="fa fa-sign-out-alt"></i>
+                        </div>
+                        <p>Logout</p>
+                        </a>
+                    </div>
+            </div>
         </div><!-- End .header-right -->         
     </div><!-- End .container -->
 </div><!-- End .header-middle -->

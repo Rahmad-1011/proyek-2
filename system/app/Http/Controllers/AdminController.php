@@ -37,10 +37,20 @@ class AdminController extends Controller
         return view('Admin.User.beranda-pembeli', $data);
     }
 
+    public function DetailAdmin(User $user){
+        $data['user'] = $user;
+        return view('Admin.User.detail', $data);
+    }
+
     public function DetailToko(User $user){
         $data['user'] = $user;
         $data['list_produk'] = $user->produk;
         return view('Admin.User.show', $data);
+    }
+
+    public function DetailPembeli(User $user){
+        $data['user'] = $user;
+        return view('Admin.User.detail-pembeli', $data);
     }
 
     public function DetailProduk(Produk $produk){

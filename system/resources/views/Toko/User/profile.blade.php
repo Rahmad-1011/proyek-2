@@ -8,7 +8,6 @@
 				<div  class="card-header">
 					<h2 style="color: #008080"><b>Profile Toko</b></h2>
 				</div>
-			@include('Pembeli.template.utils.notif')
 			<div class="card-body">
 				<section class="content">
 					<div class="container-fluid">
@@ -56,13 +55,17 @@
 											<label for="" class="control-label"><b>Nama Toko</b></label>
 											<input type="text" class="form-control" value="{{$user->nama}}" name="nama">
 										</div>
+										<div class="form-group">
+											<label for="" class="control-label"><b>Email Toko</b></label>
+											<input type="email" class="form-control" value="{{$user->email}}" name="email">
+										</div>
 								        <div class="form-group">
 											<label for="" class="control-label"><b>No. Handphone</b></label>
 											<input type="number" class="form-control" value="{{$user->no_hp}}" name="no_hp">
 										</div>
 										<div class="form-group">
 											<label for="" class="control-label"><b>Alamat</b></label>
-											<textarea class="form-control" name="alamat" value="{{$user->alamat}}"></textarea>
+											<textarea class="form-control" name="alamat">{{$user->alamat}}</textarea>
 										</div>
 								        <div class="row">
 								          <div class="col-md-6">

@@ -17,7 +17,7 @@
 						Stok : {{($produk->stok)}}  | <br>
 					
 				
-						Berat : {{($produk->berat)}} Kg | <br>
+						Berat : {{($produk->berat)}} gr | <br>
 
 						Seller : {{($produk->seller->nama)}}  |
 

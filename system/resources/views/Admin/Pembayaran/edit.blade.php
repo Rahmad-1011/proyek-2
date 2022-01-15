@@ -7,7 +7,7 @@
 		<div class="col-md-12 mt-5">
 			<div class="card">
 				<div  class="card-header">
-					<b>Tambah Kategori</b>
+					<b>Edit Metode Pembayaran</b>
 				</div>
 					<div class="card-body">
 						<form action="{{url('Admin/pembayaran', $pembayaran->id)}}" method="post" enctype="multipart/form-data">
@@ -27,10 +27,6 @@
 						<div class="form-group">
 							<label for="" class="control-label"><b>Atas Nama</b></label>
 							<input type="text" class="form-control" name="atas_nama" value="{{$pembayaran->atas_nama}}">
-						</div>
-						<div class="form-group">
-							<label for="" class="control-label"><b>Pajak</b></label>
-							<input type="text" class="form-control" name="pajak" value="{{$pembayaran->pajak}}">
 						</div>
 						<button class="btn btn-dark float-right"><i class="fa fa-save"></i> Simpan</button>
 						</form>
