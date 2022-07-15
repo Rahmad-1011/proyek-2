@@ -70,49 +70,49 @@
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Update Profil</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="card">
-                        <div class="card-body">
-                           <form action="{{url('profile')}}" method="post" class="contact-form mb-3" enctype="multipart/form-data">
-                            @csrf
-                            @method("PUT")
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label for="cname" class="sr-only">Name</label>
-                                    <input type="text" class="form-control" id="cname" name="nama" value="{{$user->nama}}" placeholder="Nama Lengkap *" required>
-                                </div><!-- End .col-sm-6 -->
-
-                                <div class="col-sm-12">
-                                    <label for="cemail" class="sr-only">Email</label>
-                                    <input type="email" class="form-control" id="cemail" name="email" value="{{$user->email}}" placeholder="Email *" required>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label for="cphone" class="sr-only">No. Handphone</label>
-                                    <input type="tel" class="form-control" id="cphone" name="no_hp" value="{{$user->no_hp}}" placeholder="No. Handphone">
-                                </div><!-- End .col-sm-6 -->
-
-                                <div class="col-sm-12">
-                                    <label for="csubject" class="sr-only">Alamat</label>
-                                    <textarea class="form-control" name="alamat" value="{{$user->alamat}}" placeholder="Alamat"></textarea>
-                                </div>
-                                <label for="" class="control-label justify-content-center" style="margin-left: 23px">Edit Foto Profil </label>
-                                <input type="file" class="form-control" name="foto" accept="image/*" >
-
-                                <button class="btn btn-primary btn-block">Update Profil</button>
-                            </div><!-- End .row -->
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update Profil</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                    </form>
+                        <div class="modal-body">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="{{url('profile')}}" method="post" class="contact-form mb-3" enctype="multipart/form-data">
+                                    @csrf
+                                    @method("PUT")
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <label for="cname" class="sr-only">Name</label>
+                                            <input type="text" class="form-control" id="cname" name="nama" value="{{$user->nama}}" placeholder="Nama Lengkap *" required>
+                                        </div><!-- End .col-sm-6 -->
+
+                                        <div class="col-sm-12">
+                                            <label for="cemail" class="sr-only">Email</label>
+                                            <input type="email" class="form-control" id="cemail" name="email" value="{{$user->email}}" placeholder="Email *" required>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <label for="cphone" class="sr-only">No. Handphone</label>
+                                            <input type="tel" class="form-control" id="cphone" name="no_hp" value="{{$user->no_hp}}" placeholder="No. Handphone">
+                                        </div><!-- End .col-sm-6 -->
+
+                                        <div class="col-sm-12">
+                                            <label for="csubject" class="sr-only">Alamat</label>
+                                            <textarea class="form-control" name="alamat" value="{{$user->alamat}}" placeholder="Alamat"></textarea>
+                                        </div>
+                                        <label for="" class="control-label justify-content-center" style="margin-left: 23px">Edit Foto Profil </label>
+                                        <input type="file" class="form-control" name="foto" accept="image/*" >
+
+                                        <button class="btn btn-primary btn-block">Update Profil</button>
+                                    </div><!-- End .row -->
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
 <!-- end modal -->
 <div class="modal fade" id="ganti-password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">

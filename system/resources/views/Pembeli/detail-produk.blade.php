@@ -134,7 +134,11 @@
                               <div class="row my-3">
                                 <div class="col-md-1 my-3">
                                     <center>
-                                        <img src="{{url('public')}}/{{$komentar->user->foto}}" width="50px" style="border-radius: 50%; border:3px solid #00ff00; height: 50px">
+                                         @if(!empty($komentar->user->foto))
+                                          <img src="{{url('public')}}/{{$komentar->user->foto}}" width="50px" style="border-radius: 50%; border:3px solid #00ff00; height: 50px">
+                                        @else
+                                          <img src="{{url('public')}}/Admin/assets/img/user.png">
+                                        @endif
                                     </center>
                                 </div>
                                 <div class="col-md-10 my-3">
@@ -169,7 +173,11 @@
                                  <div class="row my-3">
                                 <div class="col-md-1 my-3">
                                     <center>
-                                        <img src="{{url('public')}}/{{$child->user->foto}}" width="50px" height="50px" style="border-radius: 50%; border:3px solid #00ff00">
+                                       @if(!empty($child->user->foto))
+                                          <img src="{{url('public')}}/{{$child->user->foto}}" width="50px" height="50px" style="border-radius: 50%; border:3px solid #00ff00">
+                                        @else
+                                          <img src="{{url('public')}}/Admin/assets/img/user.png">
+                                        @endif
                                     </center>
                                 </div>
                                 <div class="col-md-10 my-3">

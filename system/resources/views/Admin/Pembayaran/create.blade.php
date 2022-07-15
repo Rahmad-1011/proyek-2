@@ -14,19 +14,19 @@
 						@csrf
 						<div class="form-group">
 							<label for="" class="control-label"><b>Nama</b></label>
-							<input type="text" class="form-control" name="nama">
-						</div>
-						<div class="form-group">
-							<label for="" class="control-label"> Foto </label>
-							<input type="file" class="form-control" name="foto" accept="image/*">
-						</div>
-						<div class="form-group">
-							<label for="" class="control-label"><b>No. Rekening</b></label>
-							<input type="text" class="form-control" name="rekening">
+							<input type="text" class="form-control" name="nama" required>
 						</div>
 						<div class="form-group">
 							<label for="" class="control-label"><b>Atas Nama</b></label>
-							<input type="text" class="form-control" name="atas_nama">
+							<input type="text" class="form-control" name="atas_nama" required>
+						</div>
+						<div class="form-group">
+							<label for="" class="control-label"><b>Nomor</b></label>
+							<input type="text" class="form-control" name="nomor" required>
+						</div>
+						<div class="form-group">
+							<label for="" class="control-label"> Foto </label>
+							<input type="file" class="form-control" name="foto" accept="image/*" required>
 						</div>
 						<button class="btn btn-dark float-right"><i class="fa fa-save"></i> Simpan</button>
 						</form>

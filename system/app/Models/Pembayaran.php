@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Support\Str;
+use App\Models\TokoTransaksi;
 
 class Pembayaran extends Model{
 	protected $table = 'pembayaran';
@@ -24,7 +25,8 @@ class Pembayaran extends Model{
 		return true;
 	}
 
-	function pesanan(){
+	function pembayaran(){
 		return $this->hasMany(Pesanan::class, 'pembayaran_id');
 	}
+
 }

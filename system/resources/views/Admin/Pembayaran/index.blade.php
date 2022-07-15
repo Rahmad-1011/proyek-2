@@ -17,9 +17,6 @@
 							<th style="width: 200px;">Aksi</th>
 							<th> </th>
 							<th>Nama</th>
-							<th>No. Rekening</th>
-							<th>Atas Nama</th>
-							<th>Pajak</th>
 						</thead>
 						<tbody style="text-align: center; color: #000">
 							@foreach($list_pembayaran as $pembayaran)
@@ -33,9 +30,6 @@
 								</td>
 								<td><img style="width: 100px;" src="{{url("public/$pembayaran->foto")}}" class="img-fluid"></td>
 								<td>{{$pembayaran->nama}}</td>
-								<td>{{$pembayaran->rekening}}</td>
-								<td>{{$pembayaran->atas_nama}}</td>
-								<td>{{$pembayaran->pajak}}</td>
 							</tr>
 							@endforeach
 						</tbody>

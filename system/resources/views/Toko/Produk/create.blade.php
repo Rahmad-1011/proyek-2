@@ -16,12 +16,12 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label for="" class="control-label"><b>Nama</b></label>
-							<input type="text" class="form-control" name="nama">
+							<input type="text" class="form-control" name="nama" required>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<label for="" class="control-label"> Kategori </label>
-						<select name="id_kategori" class="form-control">
+						<select name="id_kategori" class="form-control" required>
 						<option>Pilih Kategori</option>
 							@foreach($list_kategori as $kategori)
 								<option value="{{$kategori->id}}">{{$kategori->nama}}</option>
@@ -33,31 +33,31 @@
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="" class="control-label"><b>Harga</b></label>
-							<input type="text" class="form-control" name="harga">
+							<input type="text" class="form-control" name="harga" required>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="" class="control-label"><b>Berat</b></label>
-							<input type="text" class="form-control" name="berat">
+							<input type="text" class="form-control" name="berat" required>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="" class="control-label"><b>Stok</b></label>
-							<input type="text" class="form-control" name="stok">
+							<input type="text" class="form-control" name="stok" required>
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
 							<label for="" class="control-label"> Foto </label>
-							<input type="file" class="form-control" name="foto" accept="image/*">
+							<input type="file" class="form-control" name="foto" accept="image/*" required>
 						</div>
 					</div>
 				</div>
 					<div class="form-group">
 							<label for="" class="control-label"><b>Deskripsi</b></label>
-							<textarea name="deskripsi" id="deskripsi" class="form-control"></textarea>
+							<textarea name="deskripsi" id="deskripsi" class="form-control" required></textarea>
 					</div>
 						<button class="btn btn-dark float-right"><i class="fa fa-save"></i> Simpan</button>
 					</form>

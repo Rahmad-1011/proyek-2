@@ -2,84 +2,46 @@
 
 namespace App\Http\Controllers;
 use App\Models\Produk;
+use App\Models\Kurir;
 use App\Models\Pesanan;
 use App\Models\PesananDetail;
 use App\Models\User;
 use App\Models\Komentar;
 use App\Models\Pembayaran;
 use Auth;
+use DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Kategori;
 
+
 class ClientController extends Controller
 {
-
-	function BerandaGuest(){
-		$data['list_produk'] = Produk::orderBy('updated_at','desc')->paginate(4);
-		$data['list_produk_rekomendasi'] = Produk::paginate(4);
-		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.Guest.beranda-guest', $data);
-	}
-
-	function ListTokoGuest(){
-		$data['list_toko'] = User::where('level',1)->paginate(12);
-		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.Guest.toko-guest', $data);
-	}
-
-	function ListProdukGuest(){
-		$data['list_produk'] = Produk::paginate(12);
-		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.Guest.produk-guest', $data);
-	}
-
-	function CariProdukGuest(){
-		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		$nama = request('nama');
-		$data['list_produk'] = Produk::where('nama', 'like', "%$nama%")->paginate(12);
-		$data['nama'] = $nama;
-		return view('Pembeli.Guest.produk-guest', $data);
-	}
-
-	function KategoriProdukGuest(Kategori $kategori){
-		$data['kategori'] = $kategori;
-		$data['list_produk'] = Produk::where('id_kategori', $kategori->id)->paginate(9);
-		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		
-		return view('Pembeli.Guest.kategori-guest', $data);
-	}
-
-	function DetailProdukGuest(Produk $produk){
-		$data['produk'] = $produk;
-		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.Guest.detail-produk-guest', $data);
-	}
-
-	function DetailTokoGuest(User $user){
-		$data['user'] = $user;
-		$data['list_produk'] = $user->produk;
-		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.Guest.detail-toko-guest', $data);
-	}
 
 	function Beranda(){
 		$data['list_produk'] = Produk::orderBy('updated_at','desc')->paginate(10);
 		$data['list_produk_rekomendasi'] = Produk::paginate(4);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.beranda', $data);
+		return view('Pembeli.Pembeli.beranda', $data);
 	}
 
 	function ListToko(){
 		$data['list_toko'] = User::where('level',1)->paginate(12);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.list-toko', $data);
+		return view('Pembeli.Pembeli.list-toko', $data);
 	}
 
 	function ListProduk(){
-		$data['list_produk'] = Produk::all()->random()->paginate(20);
+		$data['list_produk'] = Produk::where('stok','>=','1')->paginate(15);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.list-produk', $data);
+		return view('Pembeli.Pembeli.list-produk', $data);
+	}
+
+	function ListProdukKategori(Kategori $kategori){
+		$data['kategori'] = $kategori;
+		$data['list_produk'] = Produk::where('id_kategori', $kategori->id)->where('stok', '>=', '1')->paginate(15);
+		$data['list_kategori'] = Kategori::withCount('produk')->get();
+		return view('Pembeli.Pembeli.list-produk', $data);
 	}
 
 	function CariProduk(){
@@ -87,7 +49,7 @@ class ClientController extends Controller
 		$data['list_produk'] = Produk::where('nama', 'like', "%$nama%")->paginate(12);
 		$data['nama'] = $nama;
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.list-produk', $data);
+		return view('Pembeli.Pembeli.list-produk', $data);
 	}
 
 	function Filter(){
@@ -97,7 +59,7 @@ class ClientController extends Controller
 		$data['harga_min'] = $harga_min = request('harga_min');
 		$data['harga_max'] = $harga_max = request('harga_max');
 		$data['list_produk'] = Produk::where('id_kategori', "$kategori")->whereBetween('harga', [$harga_min, $harga_max])->paginate(12);
-		return view('Pembeli.list-produk', $data);
+		return view('Pembeli.Pembeli.list-produk', $data);
 	}
 
 	function KategoriProduk(Kategori $kategori){
@@ -105,7 +67,7 @@ class ClientController extends Controller
 		$data['list_produk'] = Produk::where('id_kategori', $kategori->id)->paginate(9);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
 		
-		return view('Pembeli.kategori-produk', $data);
+		return view('Pembeli.Pembeli.kategori-produk', $data);
 	}
 
 	function DetailProduk(Produk $produk, User $user, Kategori $kategori){
@@ -114,14 +76,14 @@ class ClientController extends Controller
 		$data['user'] = $user;
 		$data['produk'] = $produk;
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.detail-produk', $data);
+		return view('Pembeli.Pembeli.detail-produk', $data);
 	}
 
 	function DetailToko(User $user){
 		$data['user'] = $user;
-		$data['list_produk'] = $user->produk;
+		$data['list_produk'] = Produk::where('user_id', $user->id)->where('stok','>=','1')->paginate(15);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		return view('Pembeli.detail-toko', $data);
+		return view('Pembeli.Pembeli.detail-toko', $data);
 	}
 
 
@@ -181,10 +143,14 @@ class ClientController extends Controller
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
 		$data['pesanan'] = Pesanan::where('user_id', Auth::user()->id)->where('status',0)->first();
 		if(!empty($data['pesanan'])){
-			$data['pesanan_details'] = PesananDetail::where('pesanan_id', $data['pesanan']->id)->get();
+			// $data['pesanan_details'] = PesananDetail::where('pesanan_id', $data['pesanan']->id)->get();
+			$data['pesanan_details'] = PesananDetail::select('pesanan_detail.*','pesanan_detail.id as id',DB::raw('(pesanan_detail.jumlah * produk.berat) as berat'))
+			->join('produk','produk.id','=','pesanan_detail.produk_id')
+			->where('pesanan_id', $data['pesanan']->id)
+			->get();
 		}
 		
-		return view('Pembeli.chart', $data);
+		return view('Pembeli.Pembeli.keranjang', $data);
 	}
 
 	public function DeleteCheckout($id){
@@ -197,7 +163,7 @@ class ClientController extends Controller
 		$pesanan_detail->delete();
 
 
-		return redirect('keranjang')->with('danger', 'Pesanan Berhasil Dihapus');
+		return redirect('keranjang')->with('danger', 'Pesanan Berhasil Dihapus Dari Keranjang');
 	}
 
 	public function KonfirmasiCheckout(Request $request){
@@ -206,10 +172,13 @@ class ClientController extends Controller
 		$pesanan_id = $pesanan->id;
 		$pesanan->update();
 
+		$pesanan_detail = PesananDetail::where('pesanan_id', $pesanan->id)->where('status', 0)->first();
+		$pesanan_detail->status =1;
+		$pesanan_detail->update();
+
 		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan_id)->get();
 		foreach ($pesanan_details as $pesanan_detail){
 			$produk = Produk::where('id', $pesanan_detail->produk_id)->first();
-			$produk->stok = $produk->stok-$pesanan_detail->jumlah;
 			$produk->update();
 		}
 
@@ -219,68 +188,106 @@ class ClientController extends Controller
 
 	function Pemesanan(){
 		$data['list_pembayaran'] = Pembayaran::all();
+		$data['list_kurir'] = Kurir::all();
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
 		$data['pesanan'] = Pesanan::where('user_id', Auth::user()->id)->where('status', 1)->first();
 		if(!empty($data['pesanan'])){
 			$data['pesanan_details'] = PesananDetail::where('pesanan_id', $data['pesanan']->id)->get();
 		}
 		
-		return view('Pembeli.checkout', $data);
+		return view('Pembeli.Pembeli.checkout', $data);
 	}
 
-	public function KonfirmasiPemesanan(){
-		$pesanan = Pesanan::where('user_id', Auth::user()->id)->where('status', 1)->first();
+	function GetCity($id){
+        $city = City::where('province_id', $id)->pluck('title', 'city_id');
+        return json_encode($city);
+    }
 
-		$pesanan_id = $pesanan->id;
+    public function check_ongkir(Request $request)
+    {
+        $cost = RajaOngkir::ongkosKirim([
+            'origin'        => $request->city_origin, // ID kota/kabupaten asal
+            'destination'   => $request->city_destination, // ID kota/kabupaten tujuan
+            'weight'        => $request->weight, // berat barang dalam gram
+            'courier'       => $request->courier // kode kurir pengiriman: ['jne', 'tiki', 'pos'] untuk starter
+        ])->get();
+
+
+        return response()->json($cost);
+    }
+
+	public function KonfirmasiPemesanan(){
+		$pesanan = Pesanan::where('user_id', Auth::user()->id)->where('id', request('id'))->first();
+		// dd($pesanan);
 		$pesanan->nama_penerima = request('nama_penerima');
 		$pesanan->alamat = request('alamat');
-		$pesanan->kode_pos = request('kode_pos');
 		$pesanan->no_hp = request('no_hp');
 		$pesanan->pembayaran_id = request('pembayaran_id');
+		$pesanan->kurir_id = request('kurir_id');
 		$pesanan->status = 2;
 		$pesanan->update();
 
-		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan_id)->get();
+		$pesanan_detail = PesananDetail::where('pesanan_id', $pesanan->id)->first();
+		$pesanan_detail->status =2;
+		$pesanan_detail->update();
+
+		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan->id)->get();
 		foreach ($pesanan_details as $pesanan_detail){
 			$produk = Produk::where('id', $pesanan_detail->produk_id)->first();
-			$produk->stok = $produk->stok-$pesanan_detail->jumlah;
 			$produk->update();
 		}
 
-		return redirect('profile')->with('success', 'Pemesanan Berhasil');
+		return redirect('profile/pesanan-saya')->with('success', 'Pemesanan Berhasil');
 
 	}
 
-	public function Pembayaran(){
+	public function Pembayaran(PesananDetail $pesanan_detail){
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		$data['pesanan'] = Pesanan::where('user_id', Auth::user()->id)->where('status', 2)->first();
 
+		$data['pesanan_detail'] = $pesanan_detail;
+		// dd($data);
 		
-
-		if(!empty($data['pesanan'])){
-			$data['pesanan_details'] = PesananDetail::where('pesanan_id', $data['pesanan']->id)->get();
-		}
-		
-		return view('Pembeli.pembayaran', $data);
+		return view('Pembeli.Pembeli.pembayaran', $data);
 	}
 
 	public function KonfirmasiPembayaran(){
-		$pesanan = Pesanan::where('user_id', Auth::user()->id)->where('status', 2)->first();
-
-		$pesanan_id = $pesanan->id;
-		$pesanan->total_harga = $pesanan->jumlah_harga;
+		$pesanan = Pesanan::where('user_id', Auth::user()->id)->where('id', request('id'))->first();
+		// dd($pesanan);
+		$pesanan->total_harga = $pesanan->jumlah_harga+$pesanan->kurir->tarif;
 		$pesanan->handleUploadFoto();
 		$pesanan->status = 3;
 		$pesanan->update();
+		
+		$pesanan_detail = PesananDetail::where('pesanan_id', $pesanan->id)->first();
+		$pesanan_detail->status =3;
+		$pesanan_detail->update();
 
-		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan_id)->get();
+
+
+		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan->id)->get();
 		foreach ($pesanan_details as $pesanan_detail){
 			$produk = Produk::where('id', $pesanan_detail->produk_id)->first();
 			$produk->stok = $produk->stok-$pesanan_detail->jumlah;
 			$produk->update();
 		}
 
-		return redirect('profile')->with('success', 'Pemesanan Berhasil');
+		return redirect('profile/pesanan-saya')->with('success', 'Pemesanan Berhasil');
+
+	}
+
+	public function KonfirmasiBarangSampai(){
+		$pesanan = Pesanan::where('user_id', Auth::user()->id)->where('id', request('id'))->first();
+		// dd($pesanan, request()->all());
+		$pesanan->status = 5;
+		$pesanan->save();
+
+		$pesanan_detail = PesananDetail::where('pesanan_id', $pesanan->id)->first();
+		$pesanan_detail->handleUploadFoto();
+		$pesanan_detail->catatan = request('catatan');
+		$pesanan_detail->status =5;
+		$pesanan_detail->save();
+
+		return redirect('profile/pesanan-saya')->with('success', 'Konfirmasi Barang Sampai Berhasil');
 
 	}
 

@@ -12,8 +12,17 @@ use Illuminate\Support\Str;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
     function produk(){
         return $this->hasMany(Produk::class, 'user_id');
+    }
+
+    function pembayaran(){
+        return $this->hasMany(TokoTransaksi::class, 'user_id');
+    }
+
+    function alamat(){
+        return $this->hasMany(Alamat::class, 'user_id');
     }
 
     function handleUploadFoto(){

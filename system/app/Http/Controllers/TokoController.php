@@ -10,6 +10,13 @@ use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\Pesanan;
 use App\Models\PesananDetail;
+use App\Models\Province;
+use App\Models\City;
+use App\Models\TokoTransaksi;
+use App\Models\Pembayaran;
+
+use RajaOngkir;
+    
 
 class TokoController extends Controller
 {
@@ -33,10 +40,20 @@ class TokoController extends Controller
         return view('Toko.Komentar.index');
     }
 
-    public function Profile(){
+    function Profile(){
     	$data['user'] = User::where('id', Auth::user()->id)->first();
+        // $data['provinces'] = Province::pluck('title', 'province_id');
+
+        // naldy
+        $data['list_provinsi'] = Province::pluck('title', 'province_id');
+        
     	
         return view('Toko.User.profile', $data);
+    }
+
+    function GetCity($id){
+        $city = City::where('province_id', $id)->pluck('title', 'city_id');
+        return json_encode($city);
     }
 
     public function Update(Request $request){
@@ -46,6 +63,8 @@ class TokoController extends Controller
     	$user->no_hp = request('no_hp');
     	$user->alamat = request('alamat');
 		$user->email= request('email');
+        $user->province_id = request('province_origin');
+        $user->city_id = request('city_origin');
 		$user->handleUploadFoto();
 		$user-> update();
     	
@@ -94,26 +113,51 @@ class TokoController extends Controller
         $data['list_pesanan'] = Pesanan::select('pesanan')
         ->join('pesanan_detail','pesanan_detail.pesanan_id','=','pesanan.id')
         ->join('produk','produk.id','=','pesanan_detail.produk_id')
+        ->join('kurir', 'kurir.id', '=', 'pesanan.kurir_id')
         ->join('users', 'users.id','=','pesanan.user_id')
-        ->select('pesanan.*','produk.*','users.*','pesanan_detail.*','users.nama as nama_pemesan', 'pesanan_detail.status as status_pesanan')
-        ->where('pesanan.status',3)
+        ->select('pesanan.*','produk.*','users.*','pesanan_detail.*','pesanan.nama_penerima as nama_pemesan', 'pesanan_detail.status as status_pesanan', 'produk.nama as nama_produk', 'pesanan.foto as bukti_pembayaran', 'kurir.nama as nama_kurir', 'pesanan_detail.bukti as bukti_barang_diterima', 'pesanan.id as id_pesanan', 'pesanan.alamat as alamat_tujuan', 'pesanan.no_hp as no_hp_pemesan')
+        ->where('pesanan.status','>=', '3')
         ->where('produk.user_id', Auth::id())
         ->get();
+
+
         return view('Toko.Transaksi.pesanan', $data);
     }
 
     function DetailPesanan(Pesanan $pesanan){
-        $data['pesanan'] = $pesanan;
-        if(!empty($data['pesanan'])){
-            $data['pesanan_details'] = PesananDetail::where('pesanan_id', $data['pesanan']->id)->get();
-        }
+        
         return view('Toko.Transaksi.detail-pesanan', $data);
     }
 
-    function statusPengiriman(PesananDetail $pesanan_detail){
-        $pesanan_detail->status =  request('status');
-        $pesanan_detail->save();
+    public function statusPengiriman(PesananDetail $pesanan_detail){
+        $pesanan_detail->status =4;
+        $pesanan_detail->update();
+
+        $pesanan = Pesanan::where('id', $pesanan_detail->pesanan_id)->first();
+        // dd($pesanan);
+        $pesanan->status = 4;
+        $pesanan->update();
+
+        // $pesanan = Pesanan::where('id', request('id'))->first();
+
+        // $pesanan_id = $pesanan->id;
+        // $pesanan->status = 4;
+        // $pesanan->update();
+
+        // $pesanan_detail = PesananDetail::where('pesanan_id', $pesanan->id)->where('status', 3)->first();
+        // $pesanan_detail->status =4;
+        // $pesanan_detail->update();
         
         return redirect('Toko/pesanan')->with('success', 'Pesanan berhasil Di kirim');
     }
+
+    function destroy($id){
+        $pesanan_detail = PesananDetail::where('id', $id)->first();
+
+        $pesanan_detail->delete();
+
+        return back()->with('danger', 'Data Transaksi berhasil dihapus');
+    }
+
+
 }

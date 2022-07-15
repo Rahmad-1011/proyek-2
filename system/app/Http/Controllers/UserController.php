@@ -8,20 +8,20 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-    public function createAdmin(){
+    function createAdmin(){
     	return view ('Admin.User.registrasi');
     }
-    public function createToko(){
+    function createToko(){
         return view ('Toko.User.register');
     }
-    public function createPembeli(){
+    function createPembeli(){
         return view ('Pembeli.User.register');
     }
-    public function store(Request $request){
+    function store(Request $request){
 
         $request->validate([
             'nama' => 'required|max:255',
-            'email' => 'required|email:dns|unique:users',
+            'email' => 'required|unique:users',
             'password' => 'required|min:8|max:255'
         ]);
 
@@ -41,4 +41,5 @@ class UserController extends Controller
         return redirect()->back()-> with ('danger', 'Data berhasil dihapus');
 
     }
+
 }

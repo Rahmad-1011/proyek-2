@@ -64,17 +64,4 @@ class AdminController extends Controller
         return redirect()->back()-> with('danger', 'Data berhasil dihapus');
     }
 
-    public function Slider(){
-        $data['gambar'] = Gambar::all();
-        return view('Admin.Slider.index', $data);
-    }
-    public function EditSlider(){
-        $gambar = new gambar;
-        $gambar->handleUploadSlider1();
-        $gambar->handleUploadSlider2();
-        $gambar->handleUploadSlider3();
-        $gambar->save();
-
-        return redirect()->back()->with('success', 'Slider Berhasil Di Tambah');
-    }
 }

@@ -17,9 +17,8 @@ class PembayaranController extends Controller{
 	function store(){
 		$pembayaran = new Pembayaran;
 		$pembayaran-> nama = request('nama');
-		$pembayaran-> rekening = request('rekening');
 		$pembayaran-> atas_nama = request('atas_nama');
-		$pembayaran-> pajak = request('pajak');
+		$pembayaran-> nomor = request('nomor');
 		$pembayaran->handleUploadFoto();
 		$pembayaran-> save();
 
@@ -40,9 +39,8 @@ class PembayaranController extends Controller{
 
 	function update(Pembayaran $pembayaran){
 		$pembayaran-> nama = request('nama');
-		$pembayaran-> rekening = request('rekening');
 		$pembayaran-> atas_nama = request('atas_nama');
-		$pembayaran-> pajak = request('pajak');
+		$pembayaran-> nomor = request('nomor');
 		$pembayaran->handleUploadFoto();
 		$pembayaran-> save();
 

@@ -17,16 +17,16 @@
 							<input type="text" class="form-control" name="nama" value="{{$pembayaran->nama}}">
 						</div>
 						<div class="form-group">
-							<label for="" class="control-label"> Foto </label>
-							<input type="file" class="form-control" name="foto" accept="image/*">
-						</div>
-						<div class="form-group">
-							<label for="" class="control-label"><b>No. Rekening</b></label>
-							<input type="text" class="form-control" name="rekening" value="{{$pembayaran->rekening}}">
-						</div>
-						<div class="form-group">
 							<label for="" class="control-label"><b>Atas Nama</b></label>
 							<input type="text" class="form-control" name="atas_nama" value="{{$pembayaran->atas_nama}}">
+						</div>
+						<div class="form-group">
+							<label for="" class="control-label"><b>Nomor</b></label>
+							<input type="text" class="form-control" name="nomor" value="{{$pembayaran->nomor}}">
+						</div>
+						<div class="form-group">
+							<label for="" class="control-label"> Foto </label>
+							<input type="file" class="form-control" name="foto" accept="image/*">
 						</div>
 						<button class="btn btn-dark float-right"><i class="fa fa-save"></i> Simpan</button>
 						</form>

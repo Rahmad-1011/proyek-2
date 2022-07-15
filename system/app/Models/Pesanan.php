@@ -15,16 +15,17 @@ class Pesanan extends Model{
 	}
 
 	function pesanan_detail(){
-		return $this->hasMany(PesananDetail::class, 'pesanan_id', 'id');
+		return $this->hasMany(PesananDetail::class, 'pesanan_id');
+	}
+
+	function kurir(){
+		return $this->belongsTo(Kurir::class, 'kurir_id', 'id');
 	}
 
 	function pembayaran(){
-		return $this->belongsTo(Pembayaran::class, 'pembayaran_id', 'id');
+		return $this->belongsTo(Pembayaran::class);
 	}
 
-	function transaksi(){
-		return $this->belongsTo(Transaksi::class, 'pesanan_id');
-	}
 
 	function handleUploadFoto(){
 		if(request()->hasFile('foto')){

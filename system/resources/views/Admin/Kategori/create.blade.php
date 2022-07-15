@@ -14,7 +14,7 @@
 						@csrf
 						<div class="form-group">
 							<label for="" class="control-label"><b>Nama</b></label>
-							<input type="text" class="form-control" name="nama">
+							<input type="text" class="form-control" name="nama" required>
 						</div>
 						<button class="btn btn-dark float-right"><i class="fa fa-save"></i> Simpan</button>
 						</form>

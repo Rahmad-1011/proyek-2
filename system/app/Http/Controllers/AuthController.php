@@ -30,7 +30,7 @@ class AuthController extends Controller
 	function logout(Request $request){
 		$request->session()->flush();
 		Auth::logout();
-		return redirect('maok/login');
+		return redirect('maok/login')->with('warning', 'Terima Kasih Telah Berkunjung');
 	}
 
 }

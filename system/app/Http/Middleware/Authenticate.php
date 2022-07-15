@@ -15,7 +15,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if(auth()->guest()){
-            abort(403);
+            abort(404);
         }
     }
 }

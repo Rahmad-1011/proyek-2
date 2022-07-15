@@ -4,10 +4,6 @@
       <div class="sidebar sidebar-shop">
         <div class="widget widget-clean">
           <label>Filters:</label>
-          <button class="btn btn-outline-primary-2 btn-minwidth-sm header-right" style="border-radius: 10px;">
-              <span>Filter</span>
-              <i class="icon-search"></i>
-          </button>
         </div><!-- End .widget widget-clean -->
 
         <div class="widget widget-collapsible">
@@ -51,6 +47,10 @@
                              </div>
                         </div><!-- End .filter-price -->
                     </div><!-- End .widget-body -->
+                    <button class="btn btn-outline-primary-2 btn-minwidth-sm header-right" style="border-radius: 10px;">
+                        <span>Filter</span>
+                        <i class="icon-search"></i>
+                    </button>
                   </div><!-- End .collapse -->
                     </div><!-- End .widget -->
                       </div><!-- End .sidebar sidebar-shop -->

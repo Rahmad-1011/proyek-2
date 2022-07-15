@@ -5,7 +5,7 @@ use App\Models\Produk;
 use Auth;
 use App\Models\User;
 use App\Models\Kategori;
-
+ 
 class produkcontroller extends Controller {
 	function index(){
 		$data['user'] = User::where('id', Auth::user()->id)->first();
@@ -36,7 +36,7 @@ class produkcontroller extends Controller {
 		$produk-> save();
 
 
-		return redirect ('Toko/produk')-> with ('success', 'Data berhasil ditambahkan');
+		return redirect ('Toko/produk')-> with ('success', 'Data Produk berhasil ditambahkan');
 
 	}
 
@@ -64,7 +64,7 @@ class produkcontroller extends Controller {
 		$produk-> save();
 
 
-		return redirect ('Toko/produk')-> with ('success', 'Data berhasil diedit');
+		return redirect ('Toko/produk')-> with ('success', 'Data Produk berhasil diedit');
 
 	}
 
@@ -72,7 +72,7 @@ class produkcontroller extends Controller {
 		$produk->handleDeleteFoto();
 		$produk->delete();
 
-		return redirect ('Toko/produk')-> with ('danger', 'Data berhasil dihapus');
+		return redirect ('Toko/produk')-> with ('danger', 'Data Produk berhasil dihapus');
 
 	}
 

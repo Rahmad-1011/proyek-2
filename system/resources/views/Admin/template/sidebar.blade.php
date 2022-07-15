@@ -48,6 +48,14 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{url('/Admin/transaksi')}}" class="nav-link {{request()->is('Admin/transaksi*') ? 'active' : ''}}">
+              <i class="nav-icon fas fa-money-check-alt"></i>
+              <p>
+                Transaksi
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{url('/Admin/pembayaran')}}" class="nav-link {{request()->is('Admin/pembayaran*') ? 'active' : ''}}">
               <i class="nav-icon fas fa-money-check-alt"></i>
               <p>

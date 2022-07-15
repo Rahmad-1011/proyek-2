@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use cursorPaginate;
 use Paginate;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Alamat;
 
 class ProfileController extends Controller
 {
@@ -22,10 +23,10 @@ class ProfileController extends Controller
         ->where('pesanan.user_id', Auth::id())
         ->where('pesanan.nama_penerima','>','1')
         ->select('pesanan.*','produk.*','pesanan_detail.*')
-        ->paginate(3);
+        ->get();
     	$data['user'] = User::where('id', Auth::user()->id)->first();
     	
-        return view('Pembeli.profile', $data);
+        return view('Pembeli.Pembeli.User.edit', $data);
     }
 
     public function Update(Request $request){
@@ -43,10 +44,16 @@ class ProfileController extends Controller
 
 
     public function GantiPassword(){
-        $data['list_kategori'] = Kategori::withCount('produk')->get();
+        $data['list_pesanan'] = Pesanan::select('pesanan')
+        ->join('pesanan_detail','pesanan_detail.pesanan_id','=','pesanan.id')
+        ->join('produk','produk.id','=','pesanan_detail.produk_id')
+        ->where('pesanan.user_id', Auth::id())
+        ->where('pesanan.nama_penerima','>','1')
+        ->select('pesanan.*','produk.*','pesanan_detail.*')
+        ->get();
         $data['user'] = User::where('id', Auth::user()->id)->first();
 
-        return view('Pembeli.User.ganti-password', $data);
+        return view('Pembeli.Pembeli.User.ganti-password', $data);
     }
 
     public function Store(Request $request){
@@ -79,5 +86,58 @@ class ProfileController extends Controller
             return back()->with('danger', 'Password Lama Kosong');
             }
         }
+    }
+
+    public function Pesanan(){
+        $data['list_pesanan'] = Pesanan::select('pesanan')
+        ->join('pesanan_detail','pesanan_detail.pesanan_id','=','pesanan.id')
+        ->join('produk','produk.id','=','pesanan_detail.produk_id')
+        ->where('pesanan.user_id', Auth::id())
+        ->where('pesanan.status','>', '1')
+        ->select('pesanan.*','produk.*','pesanan_detail.jumlah as jumlah', 'pesanan_detail.id as id', 'pesanan.id as idp')
+        ->get();
+
+        $data['pesanans'] = Pesanan::where('user_id', Auth::user()->id)->get();
+
+        // $data['list_pesanan_dikemas'] = Pesanan::select('pesanan')
+        // ->join('pesanan_detail','pesanan_detail.pesanan_id','=','pesanan.id')
+        // ->join('produk','produk.id','=','pesanan_detail.produk_id')
+        // ->where('pesanan.user_id', Auth::id())
+        // ->where('pesanan.nama_penerima','>','1')
+        // ->select('pesanan.*','produk.*','pesanan_detail.*')
+        // ->paginate(3);
+
+        $data['user'] = User::where('id', Auth::user()->id)->first();
+        return view('Pembeli.Pembeli.User.pesanan', $data);
+    }
+
+    public function Alamat(){
+        $data['user'] = User::where('id', Auth::user()->id)->first();
+        $user = request()->user();
+        $data['list_alamat'] = Alamat::where('user_id', Auth::user()->id)->get();
+        return view('Pembeli.Pembeli.User.alamat', $data);
+    }
+
+    public function SimpanAlamat(){
+        $alamat = new Alamat;
+        $alamat-> user_id = request()->user()->id;
+        $alamat-> nama_lengkap = request('nama_lengkap');
+        $alamat-> alamat = request('alamat');
+        $alamat-> kode_pos = request('kode_pos');
+        $alamat-> detail_lokasi = request('detail_lokasi');
+        $alamat-> no_hp = request('no_hp');
+
+        $alamat-> save();
+
+        return redirect ('profile/alamat')-> with ('success', 'Alamat berhasil ditambahkan');
+    }
+
+    public function HapusAlamat($id){
+        $alamat = Alamat::where('id', $id)->first();
+
+        $alamat->delete();
+
+
+        return redirect('profile/alamat')->with('danger', 'Pesanan Berhasil Dihapus Dari Keranjang');
     }
 }
