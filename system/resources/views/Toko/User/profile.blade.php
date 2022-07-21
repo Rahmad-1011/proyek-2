@@ -20,9 +20,9 @@
 										<div class="card-body box-profile">
 											<div class="text-center">
 												@if(!empty($user->foto))
-												<img src="{{url("public/$user->foto")}}" class="img-fluid">
+												<img id="output" style="width: 200px; heigh:200px; border-radius: 50%" src="{{url("public/$user->foto")}}" class="img-fluid">
 												@else
-												<img src="{{url('public')}}/Admin/assets/img/user.png">
+												<img id="output" style="width: 200px; heigh:200px; border-radius: 50%" src="{{url('public')}}/Admin/assets/img/user.png">
 												@endif
 											</div>
 
@@ -33,7 +33,7 @@
 												@csrf
 												<div class="form-group">
 													<label for="" class="control-label"><i class="fa fa-pencil-alt"></i> Edit Foto Profil </label>
-													<input type="file" class="form-control" name="foto" accept="image/*">
+													<input type="file" id="foto" onchange="readFoto(event)" class="form-control" name="foto" accept="image/*">
 												</div>
 											</div>
 										</div>
@@ -44,6 +44,8 @@
 												<p class="text">No HP : {{$user->no_hp}}</p>
 
 												<p class="text"> Alamat : {{$user->alamat}}</p>
+
+												<p class="text"> Pembayaran : ( {{$user->pembayaran_nama}} ) / {{$user->pembayaran_nomor}}</p>
 											</div>
 										</div>
 									</div>
@@ -60,30 +62,20 @@
 													</div>
 													<div class="form-group">
 														<label for="" class="control-label"><b>Email Toko</b></label>
-														<input type="email" class="form-control" value="{{$user->email}}" name="email">
+														<input type="email" id="email" class="form-control" value="{{$user->email}}" name="email">
 													</div>
 													<div class="form-group">
 														<label for="" class="control-label"><b>No. Handphone</b></label>
 														<input type="number" class="form-control" value="{{$user->no_hp}}" name="no_hp">
 													</div>
-
 													<div class="form-group">
-														<label for="" class="control-label"><b>Alamat</b></label>
-														<select class="form-control provinsi-asal provinsi-asal js-example-basic-single" name="province_origin">
-															<option value="">Pilih Provinsi</option>
-
-															@foreach($list_provinsi as $p => $value)
-															<option value="{{ $p  }}">{{ $value }}</option>
-															@endforeach
-														</select>
+														<label for="" class="control-label"><b>Nama (Bank/Dana) / a/n</b></label>
+														<input type="text" class="form-control" value="{{$user->pembayaran_nama}}" name="pembayaran_nama">
 													</div>
-
 													<div class="form-group">
-								                        <label class="font-weight-bold">KOTA / KABUPATEN ASAL</label>
-								                        <select class="form-control kota-asal" name="city_origin">
-								                            <option value="">-- pilih kota asal --</option>
-								                        </select>
-								                    </div>
+														<label for="" class="control-label"><b>Nomor Rekening</b></label>
+														<input type="number" class="form-control" value="{{$user->pembayaran_nomor}}" name="pembayaran_nomor">
+													</div>
 
 													<div class="form-group">
 														<label for="" class="control-label"><b>Alamat</b></label>
@@ -125,34 +117,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
-<script>
-    $(document).ready(function(){
-        //active select2
-        $(".provinsi-asal , .kota-asal, .provinsi-tujuan, .kota-tujuan").select2();
-        //ajax select kota asal
-        $('select[name="province_origin"]').on('change', function () {
-            let provindeId = $(this).val();
-            if (provindeId) {
-                jQuery.ajax({
-                    url: "{{url('Toko/profile')}}/"+provindeId,
-                    type: "GET",
-                    dataType: "json",
-                    success: function (response) {
-                        $('select[name="city_origin"]').empty();
-                        $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
-                        $.each(response, function (key, value) {
-                            $('select[name="city_origin"]').append('<option value="' + key + '">' + value + '</option>');
-                        });
-                    },
-                });
-            } else {
-                $('select[name="city_origin"]').append('<option value="">-- pilih kota asal --</option>');
-            }
-        });
-        
-
-    });
-</script>
+<script type="text/javascript">
+    var readFoto= function(event) {
+      var input = event.target;
+      var reader = new FileReader();
+      reader.onload = function(){
+        var dataURL = reader.result;
+        var output = document.getElementById('output');
+        output.src = dataURL;
+      };
+      reader.readAsDataURL(input.files[0]);
+    };
+  </script>
 
 @endpush
 @endsection

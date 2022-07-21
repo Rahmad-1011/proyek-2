@@ -25,6 +25,10 @@ class User extends Authenticatable
         return $this->hasMany(Alamat::class, 'user_id');
     }
 
+    function komentar(){
+        return $this->hasMany(Komentar::class, 'user_id');
+    }
+
     function handleUploadFoto(){
         if(request()->hasFile('foto')){
             $foto = request()->file('foto');

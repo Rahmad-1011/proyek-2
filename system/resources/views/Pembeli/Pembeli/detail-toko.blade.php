@@ -51,7 +51,7 @@
 			<div class="col-md-9">
 				<div class="category-search-filter">
 					<div class="row">
-						<div class="col-md-6">
+						<!-- <div class="col-md-6">
 							<strong>Sortir</strong>
 							<select>
 								<option>Sering Ditampilkan</option>
@@ -59,13 +59,14 @@
 								<option value="2">Harga Termurah</option>
 								<option value="4">Harga Termahal</option>
 							</select>
-						</div>
-						<div class="col-md-6">
+						</div> -->
+						<div class="col-md-12">
 							<div class="advance-search">
-								<form>
+								<form action="{{url('toko', $user->id)}}" method="post">
+									@csrf
 									<div class="form-row">
 										<div class="form-group col-md-10">
-											<input type="text" style="border-radius: 20px;" class="form-control my-2 my-lg-1 w-100 shadow" id="inputtext4" placeholder="Cari Produk">
+											<input type="text" style="border-radius: 20px;" class="form-control my-2 my-lg-1 w-100 shadow" id="inputtext4" placeholder="Cari Produk Toko Ini" name="nama" value="{{$nama ??""}}">
 										</div>
 										<div class="form-group col-md-2 align-self-center">
 											<button type="submit" class="btn btn-primary shadow border-0" style="border-radius: 20px; color: #fff; background-color: #117A65">Cari</button>
@@ -94,18 +95,42 @@
 									    <h4 class="card-title"><a href="{{url('produk', $produk->id)}}">{{$produk->nama}}</a></h4>
 									    <ul class="list-inline product-meta">
 									    	<li class="list-inline-item">
-									    		<a href="{{url('produk', $produk->id)}}"><i class="fa fa-folder-open-o"></i>{{$produk->kategori->nama}}</a>
+									    		<a href="{{url('produk/kategori', $produk->id_kategori)}}"><i class="fa fa-tag"></i>{{$produk->kategori->nama}}</a>
+									    	</li><br>
+									    	<li class="list-inline-item">
+									    		<a href="#"><i class="fa fa-calendar"></i>{!! date('d M Y', strtotime($produk->updated_at)) !!}</a>
 									    	</li>
 									    </ul>
-									    <p class="card-text">Rp. {{number_format($produk->harga)}}</p>
+									    <ul class="list-inline product-meta">
+									    	<li class="list-inline-item">
+									    		<a href="{{url('toko', $user->id)}}"><i class="fa fa-vcard"></i>{{$produk->penjual->nama}}</a>
+									    	</li>
+									    </ul>
+									    <p class="card-text"><span style="font-size: 8pt">Rp</span>{{number_format($produk->harga)}}</p>
 									    <div class="product-ratings">
-									    	<ul class="list-inline">
-									    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-									    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-									    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-									    		<li class="list-inline-item selected"><i class="fa fa-star"></i></li>
-									    		<li class="list-inline-item"><i class="fa fa-star"></i></li>
-									    	</ul>
+									    	<?php 
+											$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->get();
+											$jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
+
+											if($komentars->count() > 0){
+												$bintang = $jumlah_bintang/$komentars->count();
+											}
+											else{
+												$bintang = 0;
+											}
+											 ?>
+											@php
+												$b = number_format($bintang)
+											@endphp
+											<span>{{$komentars->count()}} Penilaian</span>
+											<ul class="list-inline">
+												@for($i =1; $i<= $b; $i++)
+													<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>
+												@endfor
+												@for($j = $b+1; $j<=5; $j++)
+													<li class="list-inline-item"><i class="fa fa-star"></i></li>
+												@endfor
+											</ul>
 									    </div>
 									</div>
 								</div>

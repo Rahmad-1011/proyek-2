@@ -10,7 +10,7 @@ class produkcontroller extends Controller {
 	function index(){
 		$data['user'] = User::where('id', Auth::user()->id)->first();
 		$user = request()->user();
-		$data['list_produk'] = $user->produk;
+		$data['list_produk'] = Produk::where('user_id', Auth::user()->id)->paginate(15);
 		$data['list_kategori'] = Kategori::all();
 		return view('Toko.Produk.index', $data);
 	}

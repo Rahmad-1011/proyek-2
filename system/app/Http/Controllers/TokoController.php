@@ -10,12 +10,10 @@ use App\Models\Kategori;
 use App\Models\Produk;
 use App\Models\Pesanan;
 use App\Models\PesananDetail;
-use App\Models\Province;
-use App\Models\City;
 use App\Models\TokoTransaksi;
 use App\Models\Pembayaran;
+use Illuminate\Support\Facades\Validator;
 
-use RajaOngkir;
     
 
 class TokoController extends Controller
@@ -32,11 +30,14 @@ class TokoController extends Controller
         ->where('produk.user_id', Auth::id())
         ->get();
         $data['kategori'] = Kategori::all();
+        $data['list_produk'] = Produk::where('user_id', Auth::user()->id)->paginate(15);
+        $data['list_kategori'] = Kategori::all();
     	
         return view('Toko.beranda', $data);
     }
 
     public function BalasKomentar(){
+        
         return view('Toko.Komentar.index');
     }
 
@@ -45,7 +46,6 @@ class TokoController extends Controller
         // $data['provinces'] = Province::pluck('title', 'province_id');
 
         // naldy
-        $data['list_provinsi'] = Province::pluck('title', 'province_id');
         
     	
         return view('Toko.User.profile', $data);
@@ -57,14 +57,17 @@ class TokoController extends Controller
     }
 
     public function Update(Request $request){
+        $request->validate([
+            'email' => 'required|unique:users',
+        ]);
 
     	$user = User::where('id', Auth::user()->id)->first();
     	$user->nama = request('nama');
     	$user->no_hp = request('no_hp');
     	$user->alamat = request('alamat');
 		$user->email= request('email');
-        $user->province_id = request('province_origin');
-        $user->city_id = request('city_origin');
+        $user->pembayaran_nama = request('pembayaran_nama');
+        $user->pembayaran_nomor = request('pembayaran_nomor');
 		$user->handleUploadFoto();
 		$user-> update();
     	

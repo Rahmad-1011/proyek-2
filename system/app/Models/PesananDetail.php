@@ -16,8 +16,7 @@ class PesananDetail extends Model{
 		return $this->belongsTo(Pesanan::class, 'pesanan_id', 'id');
 	}
 
-
-	function handleUploadFoto(){
+	function handleUploadBukti(){
 		if(request()->hasFile('bukti')){
 			$bukti = request()->file('bukti');
 			$destination = "images/bukti/pesanan";

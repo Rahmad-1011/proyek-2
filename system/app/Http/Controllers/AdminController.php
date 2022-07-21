@@ -15,7 +15,8 @@ class AdminController extends Controller
         $data['produk'] = Produk::all();
         $data['toko'] = User::where('level',1)->get();
         $data['pembeli'] = User::where('level',2)->get();
-        $data['kategori'] = Kategori::all();
+        $data['list_produk'] = Produk::where('user_id', Auth::user()->id)->paginate(15);
+        $data['list_kategori'] = Kategori::all();
         return view('Admin.beranda', $data);
     }
 

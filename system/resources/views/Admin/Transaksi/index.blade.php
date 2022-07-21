@@ -237,12 +237,13 @@
 		      	<p>Nama Pemesan : <b>{{$pesanan->pesanan->nama_penerima}}</b></p>
 		      	<p>Nomor HP Pemesan : <b>{{$pesanan->pesanan->no_hp}}</b></p>
 		      	<p>Produk Yang Dipesan : <b>{{$pesanan->produk->nama}} / {{$pesanan->jumlah}}pcs</b></p>
-		      	<p>Produk Yang Dipesan : <b>Rp. {{number_format($pesanan->pesanan->total_harga)}}</b></p>
+		      	<p>Total Harga : <b>Rp. {{number_format($pesanan->pesanan->total_harga)}}</b></p>
 		      	<p>Asal Toko : <b>{{$pesanan->produk->penjual->nama}}</b></p>
 		      	<p>Nomor HP Toko : <b>{{$pesanan->produk->penjual->no_hp}}</b></p>
 		      	<p>Pembayaran : <b>{{$pesanan->pesanan->pembayaran->nama}}</b></p>
 		      	<p>Pengiriman : <b>{{$pesanan->pesanan->kurir->nama}}</b></p>
 		      	<p>Tujuan Pengiriman : <b>{{$pesanan->pesanan->alamat}}</b></p>
+		      	<p>Pembayaran Toko : <b>{{$pesanan->produk->penjual->pembayaran_nama}}, Nomor Rek. {{$pesanan->produk->penjual->pembayaran_nomor}}</b></p>
 		      	
 		      	<div class="card shadow">
 			      	<div class="card-header">

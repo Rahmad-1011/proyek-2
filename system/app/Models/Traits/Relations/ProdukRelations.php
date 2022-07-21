@@ -20,6 +20,6 @@ trait ProdukRelations{
 		return $this->hasMany(PesananDetail::class, 'produk_id', 'id');
 	}
 	function komentar(){
-		return $this->hasMany(Komentar::class);
+		return $this->hasMany(Komentar::class, 'produk_id', 'id');
 	}
 }

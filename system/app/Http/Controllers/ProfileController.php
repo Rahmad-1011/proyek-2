@@ -12,6 +12,7 @@ use cursorPaginate;
 use Paginate;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Alamat;
+use App\Models\PesananDetail;
 
 class ProfileController extends Controller
 {
@@ -94,7 +95,7 @@ class ProfileController extends Controller
         ->join('produk','produk.id','=','pesanan_detail.produk_id')
         ->where('pesanan.user_id', Auth::id())
         ->where('pesanan.status','>', '1')
-        ->select('pesanan.*','produk.*','pesanan_detail.jumlah as jumlah', 'pesanan_detail.id as id', 'pesanan.id as idp')
+        ->select('pesanan.*','produk.*','pesanan_detail.jumlah as jumlah', 'pesanan_detail.id as id', 'pesanan.id as idp', 'produk.id as produk_id')
         ->get();
 
         $data['pesanans'] = Pesanan::where('user_id', Auth::user()->id)->get();

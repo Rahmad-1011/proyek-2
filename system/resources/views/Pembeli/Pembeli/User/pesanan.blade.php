@@ -48,327 +48,337 @@
 			              <div class="card-body">
 			                <div class="tab-content">
 			                  <div class="tab-pane active" id="tab_semua">
-			                    <table class="table table-responsive product-dashboard-table">
-									<thead>
-										<tr>
-											<th>Image</th>
-											<th>Detail Pesanan</th>
-											<th class="text-center">Status</th>
-											<th class="text-center">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($list_pesanan->sortByDesc('updated_at')->sortBy('status') as $p)
-										<tr>
-											<td class="product-thumb">
-												<img width="80px" height="auto" src="{{url("public/$p->foto")}}" alt="image description"></td>
-											<td class="product-details">
-												<h3 class="title">{{ucwords($p->nama)}}</h3>
-												<span class="add-id"><strong>Qty:</strong> {{$p->jumlah}}</span>
-												<span><strong>Total Harga: </strong><time>Rp. {{number_format($p->jumlah_harga)}}</time> </span>
-												<span class="location"><strong>Penerima:</strong> {{ucwords($p->nama_penerima)}}</span>
-											</td>
-											<td class="product-category">
-												@if($p->status==5)
-												<button class="btn btn-primary" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Diterima</button>
-												@elseif($p->status==4)
-						                        <button class="btn btn-success" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikirim</button>
-						                        @elseif($p->status==3)
-						                        <button class="btn btn-warning" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikemas</button>
-						                        @else
-						                        <button class="btn btn-danger" style="font-size: 8pt; padding: 4px; border-radius: 10px">Pesanan Belum Bayar</button>
+			                  		@foreach($pesanans->sortByDesc('updated_at')->sortBy('status') as $p)
+			                  			<?php 
+											$pesanan_details = \App\Models\PesananDetail::where('pesanan_id', $p->id)->get();
+											$foto = \App\Models\PesananDetail::where('pesanan_id', $p->id)->first();
+										?>
+			                  				<div class="card w-100 mb-3 shadow">
+												<div class="card-header">
+													<span>Tanggal pesanan {!! date('d M Y', strtotime($p->tanggal)) !!}</span>
 
-						                        @endif
-											</td>
-											<td class="action" data-title="Action">
-												<div class="">
-													<ul class="list-inline justify-content-center">
-														@if($p->status==5)
-														@elseif($p->status==4)
-														<li class="list-inline-item">
-																<button data-toggle="modal" data-target="#Modal{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Diterima" class="btn btn-success" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
-																	<i class="fa fa-check"></i>
-																</button>
-														</li>
-														@elseif($p->status==3)
-														@else
+													@if($p->status == 2)
+													<span class="badge badge-danger float-right">Belum dibayar</span>
+													@elseif($p->status == 3)
+													<span class="badge badge-warning float-right">Sedang dikemas</span>
+													@elseif($p->status == 4)
+													<span class="badge badge-success float-right">Sedang dikirim</span>
+													@elseif($p->status >= 5)
+													<span class="badge badge-info float-right">Sudah Diterima</span>
+													@endif
 
-														<li class="list-inline-item">
-															<a data-toggle="tooltip" data-placement="top" title="Bayar" class="view" href="{{url('pembayaran', $p->id)}}">
-																<i class="fa fa-money"></i>
-															</a>
-														</li>
-
-														@endif
-													</ul>
 												</div>
-											</td>
-										</tr>
-										@endforeach
-									</tbody>
-								</table>
+											  		<div class="card-body">
+											  			<div class="row">
+											  				<div class="col-md-3 col-sm-3">
+											  					<img src="{{url('public')}}/{{$foto->produk->foto}}" alt="" width="100%">
+											  				</div>
+											  				<div class="col-md-9 col-sm-9">
+											  					<tr>
+											  						<td>Produk yang dipesan</td>
+											  						<td>:</td>
+																	@foreach($pesanan_details as $pesanan_detail)
+											  						<td><b> {{$pesanan_detail->produk->nama}},</b></td>
+											  						@endforeach
+											  					</tr><br>
+											  					<tr>
+											  						<td>Total Harga</td>
+											  						<td>:</td>
+											  						<td><b> <span style="font-size: 8pt">Rp</span>{{number_format($p->total_harga)}}</b></td>
+											  					</tr><br>
+											  					<tr>
+											  						<td>Nama Penerima</td>
+											  						<td>:</td>
+											  						<td><b> {{$p->nama_penerima}}</b></td>
+											  					</tr>
+											  				</div>
+											  			</div>
+											  		</div>
+											  		@if($p->status == 2)
+											    	<div class="card-footer">
+											    		<a class="btn btn-danger float-right" data-toggle="tooltip" data-placement="top" title="Bayar" class="view" href="{{url('pembayaran', $p->id)}}" style="width: 30%; height: 40px; padding: 8px">
+															<i class="fa fa-money" style="margin: auto;"></i>
+														</a>
+											    	</div>
+											    	@elseif($p->status >= 4)
+											    	<div class="card-footer">
+											    		<button data-toggle="modal" data-target="#detail{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Info Pesanan" class="btn btn-success float-right" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
+																	<i class="fa fa-info"></i>
+																</button>
+											    	</div>
+											    	@endif
+											</div>
+
+									@endforeach
 								
 			                  </div>
 
 			                  <!-- /.tab-pane -->
 			                  <div class="tab-pane" id="tab_belumbayar">
-			                    <table class="table table-responsive product-dashboard-table">
-									<thead>
-										<tr>
-											<th>Image</th>
-											<th>Detail Pesanan</th>
-											<th class="text-center">Status</th>
-											<th class="text-center">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($list_pesanan->sortBy('id') as $p)
-										@if($p->status==2)
-										<tr>
-											<td class="product-thumb">
-												<img width="80px" height="auto" src="{{url("public/$p->foto")}}" alt="image description"></td>
-											<td class="product-details">
-												<h3 class="title">{{ucwords($p->nama)}}</h3>
-												<span class="add-id"><strong>Qty:</strong> {{$p->jumlah}}</span>
-												<span><strong>Total Harga: </strong><time>Rp. {{number_format($p->jumlah_harga)}}</time> </span>
-												<span class="location"><strong>Penerima:</strong> {{ucwords($p->nama_penerima)}}</span>
-											</td>
-											<td class="product-category">
-												@if($p->status==5)
-												<button class="btn btn-primary" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Diterima</button>
-												@elseif($p->status==4)
-						                        <button class="btn btn-success" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikirim</button>
-						                        @elseif($p->status==3)
-						                        <button class="btn btn-warning" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikemas</button>
-						                        @else
-						                        <button class="btn btn-danger" style="font-size: 8pt; padding: 4px; border-radius: 10px">Pesanan Belum Bayar</button>
+			                  	@foreach($pesanans->sortByDesc('updated_at')->sortBy('status') as $p)
+			                  		@if($p->status==2)
+			                  			<?php 
+											$pesanan_details = \App\Models\PesananDetail::where('pesanan_id', $p->id)->get();
+											$foto = \App\Models\PesananDetail::where('pesanan_id', $p->id)->first();
+										?>
+			                  				<div class="card w-100 mb-3 shadow">
+												<div class="card-header">
+													<span>Tanggal pesanan {!! date('d M Y', strtotime($p->tanggal)) !!}</span>
 
-						                        @endif
-											</td>
-											<td class="action" data-title="Action">
-												<div class="">
-													<ul class="list-inline justify-content-center">
-														@if($p->status==5)
-														@elseif($p->status==4)
-														<li class="list-inline-item">
-															<form action="{{url('konfirmasi-barang', $p->pesanan_id)}}" method="POST">
-																@csrf
-																<button data-toggle="tooltip" data-placement="top" title="Diterima" class="btn btn-success" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
-																	<i class="fa fa-check"></i>
-																</button>
-															</form>
-														</li>
-														@elseif($p->status==3)
-														@else
-														<li class="list-inline-item">
-															<a data-toggle="tooltip" data-placement="top" title="Bayar" class="view" href="{{url('pembayaran', $p->pesanan_id)}}">
-																<i class="fa fa-money"></i>
-															</a>
-														</li>
-														@endif
-													</ul>
+													@if($p->status == 2)
+													<span class="badge badge-danger float-right">Belum dibayar</span>
+													@elseif($p->status == 3)
+													<span class="badge badge-warning float-right">Sedang dikemas</span>
+													@elseif($p->status == 4)
+													<span class="badge badge-success float-right">Sedang dikirim</span>
+													@elseif($p->status >= 5)
+													<span class="badge badge-info float-right">Sudah Diterima</span>
+													@endif
+
 												</div>
-											</td>
-										</tr>
+											  		<div class="card-body">
+											  			<div class="row">
+											  				<div class="col-md-3 col-sm-3">
+											  					<img src="{{url('public')}}/{{$foto->produk->foto}}" alt="" width="100%">
+											  				</div>
+											  				<div class="col-md-9 col-sm-9">
+											  					<tr>
+											  						<td>Produk yang dipesan</td>
+											  						<td>:</td>
+																	@foreach($pesanan_details as $pesanan_detail)
+											  						<td><b> {{$pesanan_detail->produk->nama}},</b></td>
+											  						@endforeach
+											  					</tr><br>
+											  					<tr>
+											  						<td>Total Harga</td>
+											  						<td>:</td>
+											  						<td><b> <span style="font-size: 8pt">Rp</span>{{number_format($p->total_harga)}}</b></td>
+											  					</tr><br>
+											  					<tr>
+											  						<td>Nama Penerima</td>
+											  						<td>:</td>
+											  						<td><b> {{$p->nama_penerima}}</b></td>
+											  					</tr>
+											  				</div>
+											  			</div>
+											  		</div>
+											  		@if($p->status == 2)
+											    	<div class="card-footer">
+											    		<a class="btn btn-danger float-right" data-toggle="tooltip" data-placement="top" title="Bayar" class="view" href="{{url('pembayaran', $p->id)}}" style="width: 30%; height: 40px; padding: 8px">
+															<i class="fa fa-money" style="margin: auto;"></i>
+														</a>
+											    	</div>
+											    	@elseif($p->status >= 4)
+											    	<div class="card-footer">
+											    		<button data-toggle="modal" data-target="#detail{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Info Pesanan" class="btn btn-success float-right" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
+																	<i class="fa fa-info"></i>
+																</button>
+											    	</div>
+											    	@endif
+											</div>
 										@endif
-										@endforeach
-									</tbody>
-								</table>
+									@endforeach
 			                  </div>
 
 			                  <!-- /.tab-pane -->
 			                  <div class="tab-pane" id="tab_dikemas">
-			                    <table class="table table-responsive product-dashboard-table">
-									<thead>
-										<tr>
-											<th>Image</th>
-											<th>Detail Pesanan</th>
-											<th class="text-center">Status</th>
-											<th class="text-center">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($list_pesanan->sortBy('id') as $p)
-										@if($p->status==3)
-										<tr>
-											<td class="product-thumb">
-												<img width="80px" height="auto" src="{{url("public/$p->foto")}}" alt="image description"></td>
-											<td class="product-details">
-												<h3 class="title">{{ucwords($p->nama)}}</h3>
-												<span class="add-id"><strong>Qty:</strong> {{$p->jumlah}}</span>
-												<span><strong>Total Harga: </strong><time>Rp. {{number_format($p->jumlah_harga)}}</time> </span>
-												<span class="location"><strong>Penerima:</strong> {{ucwords($p->nama_penerima)}}</span>
-											</td>
-											<td class="product-category">
-												@if($p->status==5)
-												<button class="btn btn-primary" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Diterima</button>
-												@elseif($p->status==4)
-						                        <button class="btn btn-success" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikirim</button>
-						                        @elseif($p->status==3)
-						                        <button class="btn btn-warning" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikemas</button>
-						                        @else
-						                        <button class="btn btn-danger" style="font-size: 8pt; padding: 4px; border-radius: 10px">Pesanan Belum Bayar</button>
+			                    @foreach($pesanans->sortByDesc('updated_at')->sortBy('status') as $p)
+			                  		@if($p->status==3)
+			                  			<?php 
+											$pesanan_details = \App\Models\PesananDetail::where('pesanan_id', $p->id)->get();
+											$foto = \App\Models\PesananDetail::where('pesanan_id', $p->id)->first();
+										?>
+			                  				<div class="card w-100 mb-3 shadow">
+												<div class="card-header">
+													<span>Tanggal pesanan {!! date('d M Y', strtotime($p->tanggal)) !!}</span>
 
-						                        @endif
-											</td>
-											<td class="action" data-title="Action">
-												<div class="">
-													<ul class="list-inline justify-content-center">
-														@if($p->status==5)
-														@elseif($p->status==4)
-														<li class="list-inline-item">
-															<form action="{{url('konfirmasi-barang', $p->pesanan_id)}}" method="POST">
-																@csrf
-																<button data-toggle="tooltip" data-placement="top" title="Diterima" class="btn btn-success" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
-																	<i class="fa fa-check"></i>
-																</button>
-															</form>
-														</li>
-														@elseif($p->status==3)
-														@else
-														<li class="list-inline-item">
-															<a data-toggle="tooltip" data-placement="top" title="Edit" class="view" href="{{url('pembayaran', $p->pesanan_id)}}">
-																<i class="fa fa-dolar-sign"></i>
-															</a>
-														</li>
-														@endif
-													</ul>
+													@if($p->status == 2)
+													<span class="badge badge-danger float-right">Belum dibayar</span>
+													@elseif($p->status == 3)
+													<span class="badge badge-warning float-right">Sedang dikemas</span>
+													@elseif($p->status == 4)
+													<span class="badge badge-success float-right">Sedang dikirim</span>
+													@elseif($p->status >= 5)
+													<span class="badge badge-info float-right">Sudah Diterima</span>
+													@endif
+
 												</div>
-											</td>
-										</tr>
+											  		<div class="card-body">
+											  			<div class="row">
+											  				<div class="col-md-3 col-sm-3">
+											  					<img src="{{url('public')}}/{{$foto->produk->foto}}" alt="" width="100%">
+											  				</div>
+											  				<div class="col-md-9 col-sm-9">
+											  					<tr>
+											  						<td>Produk yang dipesan</td>
+											  						<td>:</td>
+																	@foreach($pesanan_details as $pesanan_detail)
+											  						<td><b> {{$pesanan_detail->produk->nama}},</b></td>
+											  						@endforeach
+											  					</tr><br>
+											  					<tr>
+											  						<td>Total Harga</td>
+											  						<td>:</td>
+											  						<td><b> <span style="font-size: 8pt">Rp</span>{{number_format($p->total_harga)}}</b></td>
+											  					</tr><br>
+											  					<tr>
+											  						<td>Nama Penerima</td>
+											  						<td>:</td>
+											  						<td><b> {{$p->nama_penerima}}</b></td>
+											  					</tr>
+											  				</div>
+											  			</div>
+											  		</div>
+											  		@if($p->status == 2)
+											    	<div class="card-footer">
+											    		<a class="btn btn-danger float-right" data-toggle="tooltip" data-placement="top" title="Bayar" class="view" href="{{url('pembayaran', $p->id)}}" style="width: 30%; height: 40px; padding: 8px">
+															<i class="fa fa-money" style="margin: auto;"></i>
+														</a>
+											    	</div>
+											    	@elseif($p->status >= 4)
+											    	<div class="card-footer">
+											    		<button data-toggle="modal" data-target="#detail{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Info Pesanan" class="btn btn-success float-right" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
+																	<i class="fa fa-info"></i>
+																</button>
+											    	</div>
+											    	@endif
+											</div>
 										@endif
-										@endforeach
-									</tbody>
-								</table>
+									@endforeach
 			                  </div>
 
 			                  <!-- /.tab-pane -->
 			                  <div class="tab-pane" id="tab_dikirim">
-			                    <table class="table table-responsive product-dashboard-table">
-									<thead>
-										<tr>
-											<th>Image</th>
-											<th>Detail Pesanan</th>
-											<th class="text-center">Status</th>
-											<th class="text-center">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($list_pesanan->sortBy('id') as $p)
-										@if($p->status==4)
-										<tr>
-											<td class="product-thumb">
-												<img width="80px" height="auto" src="{{url("public/$p->foto")}}" alt="image description"></td>
-											<td class="product-details">
-												<h3 class="title">{{ucwords($p->nama)}}</h3>
-												<span class="add-id"><strong>Qty:</strong> {{$p->jumlah}}</span>
-												<span><strong>Total Harga: </strong><time>Rp. {{number_format($p->jumlah_harga)}}</time> </span>
-												<span class="location"><strong>Penerima:</strong> {{ucwords($p->nama_penerima)}}</span>
-											</td>
-											<td class="product-category">
-												@if($p->status==5)
-												<button class="btn btn-primary" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Diterima</button>
-												@elseif($p->status==4)
-						                        <button class="btn btn-success" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikirim</button>
-						                        @elseif($p->status==3)
-						                        <button class="btn btn-warning" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikemas</button>
-						                        @else
-						                        <button class="btn btn-danger" style="font-size: 8pt; padding: 4px; border-radius: 10px">Pesanan Belum Bayar</button>
+			                    @foreach($pesanans->sortByDesc('updated_at')->sortBy('status') as $p)
+			                  		@if($p->status==4)
+			                  			<?php 
+											$pesanan_details = \App\Models\PesananDetail::where('pesanan_id', $p->id)->get();
+											$foto = \App\Models\PesananDetail::where('pesanan_id', $p->id)->first();
+										?>
+			                  				<div class="card w-100 mb-3 shadow">
+												<div class="card-header">
+													<span>Tanggal pesanan {!! date('d M Y', strtotime($p->tanggal)) !!}</span>
 
-						                        @endif
-											</td>
-											<td class="action" data-title="Action">
-												<div class="">
-													<ul class="list-inline justify-content-center">
-														@if($p->status==5)
-														@elseif($p->status==4)
-														<li class="list-inline-item">
-																<button data-toggle="modal" data-target="#Modal{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Diterima" class="btn btn-success" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
-																	<i class="fa fa-check"></i>
-																</button>
-														</li>
-														@elseif($p->status==3)
-														@else
-														<li class="list-inline-item">
-															<a data-toggle="tooltip" data-placement="top" title="Edit" class="view" href="{{url('pembayaran', $p->pesanan_id)}}">
-																<i class="fa fa-dolar-sign"></i>
-															</a>
-														</li>
-														@endif
-													</ul>
+													@if($p->status == 2)
+													<span class="badge badge-danger float-right">Belum dibayar</span>
+													@elseif($p->status == 3)
+													<span class="badge badge-warning float-right">Sedang dikemas</span>
+													@elseif($p->status == 4)
+													<span class="badge badge-success float-right">Sedang dikirim</span>
+													@elseif($p->status >= 5)
+													<span class="badge badge-info float-right">Sudah Diterima</span>
+													@endif
+
 												</div>
-											</td>
-										</tr>
+											  		<div class="card-body">
+											  			<div class="row">
+											  				<div class="col-md-3 col-sm-3">
+											  					<img src="{{url('public')}}/{{$foto->produk->foto}}" alt="" width="100%">
+											  				</div>
+											  				<div class="col-md-9 col-sm-9">
+											  					<tr>
+											  						<td>Produk yang dipesan</td>
+											  						<td>:</td>
+																	@foreach($pesanan_details as $pesanan_detail)
+											  						<td><b> {{$pesanan_detail->produk->nama}},</b></td>
+											  						@endforeach
+											  					</tr><br>
+											  					<tr>
+											  						<td>Total Harga</td>
+											  						<td>:</td>
+											  						<td><b> <span style="font-size: 8pt">Rp</span>{{number_format($p->total_harga)}}</b></td>
+											  					</tr><br>
+											  					<tr>
+											  						<td>Nama Penerima</td>
+											  						<td>:</td>
+											  						<td><b> {{$p->nama_penerima}}</b></td>
+											  					</tr>
+											  				</div>
+											  			</div>
+											  		</div>
+											  		@if($p->status == 2)
+											    	<div class="card-footer">
+											    		<a class="btn btn-danger float-right" data-toggle="tooltip" data-placement="top" title="Bayar" class="view" href="{{url('pembayaran', $p->id)}}" style="width: 30%; height: 40px; padding: 8px">
+															<i class="fa fa-money" style="margin: auto;"></i>
+														</a>
+											    	</div>
+											    	@elseif($p->status >= 4)
+											    	<div class="card-footer">
+											    		<button data-toggle="modal" data-target="#detail{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Info Pesanan" class="btn btn-success float-right" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
+																	<i class="fa fa-info"></i>
+																</button>
+											    	</div>
+											    	@endif
+											</div>
 										@endif
-										@endforeach
-									</tbody>
-								</table>
+									@endforeach
 			                  </div>
 
 			                  <!-- /.tab-pane -->
 			                  <div class="tab-pane" id="tab_selesai">
-			                    <table class="table table-responsive product-dashboard-table">
-									<thead>
-										<tr>
-											<th>Image</th>
-											<th>Detail Pesanan</th>
-											<th class="text-center">Status</th>
-											<th class="text-center">Action</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach($list_pesanan->sortBydesc('id') as $p)
-										@if($p->status==5)
-										<tr>
-											<td class="product-thumb">
-												<img width="80px" height="auto" src="{{url("public/$p->foto")}}" alt="image description"></td>
-											<td class="product-details">
-												<h3 class="title">{{ucwords($p->nama)}}</h3>
-												<span class="add-id"><strong>Qty:</strong> {{$p->jumlah}}</span>
-												<span><strong>Total Harga: </strong><time>Rp. {{number_format($p->jumlah_harga)}}</time> </span>
-												<span class="location"><strong>Penerima:</strong> {{ucwords($p->nama_penerima)}}</span>
-											</td>
-											<td class="product-category">
-												@if($p->status==5)
-												<button class="btn btn-primary" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Diterima</button>
-												@elseif($p->status==4)
-						                        <button class="btn btn-success" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikirim</button>
-						                        @elseif($p->status==3)
-						                        <button class="btn btn-warning" style="font-size: 8pt; padding: 4px; border-radius: 10px">Produk Dikemas</button>
-						                        @else
-						                        <button class="btn btn-danger" style="font-size: 8pt; padding: 4px; border-radius: 10px">Pesanan Belum Bayar</button>
+			                    @foreach($pesanans->sortByDesc('updated_at')->sortBy('status') as $p)
+			                  		@if($p->status>=5)
+			                  			<?php 
+											$pesanan_details = \App\Models\PesananDetail::where('pesanan_id', $p->id)->get();
+											$foto = \App\Models\PesananDetail::where('pesanan_id', $p->id)->first();
+										?>
+			                  				<div class="card w-100 mb-3 shadow">
+												<div class="card-header">
+													<span>Tanggal pesanan {!! date('d M Y', strtotime($p->tanggal)) !!}</span>
 
-						                        @endif
-											</td>
-											<td class="action" data-title="Action">
-												<div class="">
-													<ul class="list-inline justify-content-center">
-														@if($p->status==5)
-														@elseif($p->status==4)
-														<li class="list-inline-item">
-															<form action="{{url('konfirmasi-barang', $p->pesanan_id)}}" method="POST">
-																@csrf
-																<button data-toggle="tooltip" data-placement="top" title="Diterima" class="btn btn-success" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
-																	<i class="fa fa-check"></i>
-																</button>
-															</form>
-														</li>
-														@elseif($p->status==3)
-														@else
-														<li class="list-inline-item">
-															<a data-toggle="tooltip" data-placement="top" title="Edit" class="view" href="{{url('pembayaran', $p->pesanan_id)}}">
-																<i class="fa fa-dolar-sign"></i>
-															</a>
-														</li>
-														@endif
-													</ul>
+													@if($p->status == 2)
+													<span class="badge badge-danger float-right">Belum dibayar</span>
+													@elseif($p->status == 3)
+													<span class="badge badge-warning float-right">Sedang dikemas</span>
+													@elseif($p->status == 4)
+													<span class="badge badge-success float-right">Sedang dikirim</span>
+													@elseif($p->status >= 5)
+													<span class="badge badge-info float-right">Sudah Diterima</span>
+													@endif
+
 												</div>
-											</td>
-										</tr>
+											  		<div class="card-body">
+											  			<div class="row">
+											  				<div class="col-md-3 col-sm-3">
+											  					<img src="{{url('public')}}/{{$foto->produk->foto}}" alt="" width="100%">
+											  				</div>
+											  				<div class="col-md-9 col-sm-9">
+											  					<tr>
+											  						<td>Produk yang dipesan</td>
+											  						<td>:</td>
+																	@foreach($pesanan_details as $pesanan_detail)
+											  						<td><b> {{$pesanan_detail->produk->nama}},</b></td>
+											  						@endforeach
+											  					</tr><br>
+											  					<tr>
+											  						<td>Total Harga</td>
+											  						<td>:</td>
+											  						<td><b> <span style="font-size: 8pt">Rp</span>{{number_format($p->total_harga)}}</b></td>
+											  					</tr><br>
+											  					<tr>
+											  						<td>Nama Penerima</td>
+											  						<td>:</td>
+											  						<td><b> {{$p->nama_penerima}}</b></td>
+											  					</tr>
+											  				</div>
+											  			</div>
+											  		</div>
+											  		@if($p->status == 2)
+											    	<div class="card-footer">
+											    		<a class="btn btn-danger float-right" data-toggle="tooltip" data-placement="top" title="Bayar" class="view" href="{{url('pembayaran', $p->id)}}" style="width: 30%; height: 40px; padding: 8px">
+															<i class="fa fa-money" style="margin: auto;"></i>
+														</a>
+											    	</div>
+											    	@elseif($p->status >= 4)
+											    	<div class="card-footer">
+											    		<button data-toggle="modal" data-target="#detail{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Info Pesanan" class="btn btn-success float-right" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
+																	<i class="fa fa-info"></i>
+																</button>
+											    	</div>
+											    	@endif
+											</div>
 										@endif
-										@endforeach
-									</tbody>
-								</table>
+									@endforeach
 			                  </div>
 			                  <!-- /.tab-pane -->
 			                </div>
@@ -388,12 +398,63 @@
 	</div>
 	<!-- Container End -->
 </section>
-				@foreach($list_pesanan->sortBydesc('updated_at') as $p)
-				<form action="{{url('konfirmasi-barang', $p->id)}}" method="POST" enctype="multipart/form-data">
+
+<!-- Modal Detail Pesanan -->
+@foreach($pesanans as $p)
+<?php 
+	$pesanan_details = \App\Models\PesananDetail::where('pesanan_id', $p->id)->get();
+?>
+<div class="modal fade" id="detail{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Detail Pesanan</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	@foreach($pesanan_details as $pesanan_detail)
+        <div class="card mb-4 shadow">
+        	<div class="row">
+        		<div class="col-md-3"><img src="{{url('public')}}/{{$pesanan_detail->produk->foto}}" alt="" width="100%" height="150px"></div>
+        		<div class="col-md-7">
+        			<ul>
+        				<li>Nama Produk : {{$pesanan_detail->produk->nama}}</li>
+        				<li>Jumlah Pesanan : {{$pesanan_detail->jumlah}} pcs</li>
+        				<li>Jumlah Harga : <span style="font-size: 8pt">Rp</span>{{number_format($pesanan_detail->jumlah_harga)}}</li>
+        				<li>Nama Toko : {{$pesanan_detail->produk->penjual->nama}}</li>
+        				<li>Nama Penerima : {{$p->nama_penerima}}</li>
+        			</ul>
+        		</div>
+        		<div class="col-md-2">
+        			@if($pesanan_detail->status == 4)
+        			<button data-toggle="modal" data-toggle="tooltip" data-target="#Modal{{$pesanan_detail->id}}" data-placement="top" title="Diterima" class="btn btn-success float-right" style="font-size: 12pt; padding: 10px; height: 50px; width: 50px;">
+						<i class="fa fa-check"></i>
+					</button>
+					@endif
+				</div>
+        	</div>
+        </div>
+        @endforeach
+      </div>
+    </div>
+  </div>
+</div>
+@endforeach
+
+			@foreach($pesanans as $p)
+			<?php 
+				$pesanan_details = \App\Models\PesananDetail::where('pesanan_id', $p->id)->get();
+			?>
+				@foreach($pesanan_details as $pesanan_detail)
+				<div class="modal fade" id="Modal{{$pesanan_detail->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form action="{{url('konfirmasi-barang', $pesanan_detail->id)}}" method="POST" enctype="multipart/form-data">
 				@csrf
-				<input type="hidden" name="id" value="{{$p->idp}}">
-				<div class="modal fade" id="Modal{{$p->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				  <div class="modal-dialog" role="document">
+				<input type="hidden" name="idpd" value="{{$pesanan_detail->id}}">
+				<input type="hidden" name="produk_id" value="{{$pesanan_detail->produk_id}}">
+				<input type="hidden" name="id" value="{{$pesanan_detail->pesanan_id}}">
+				  <div class="modal-dialog modal-lg" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
 				        <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Produk Telah Diterima</h5>
@@ -402,11 +463,64 @@
 				        </button>
 				      </div>
 				      <div class="modal-body">
-				      <span>{{$p->nama}}</span>
+				      <span>Nama Produk : {{$pesanan_detail->produk->nama}}</span>
 				      <div class="form-group">
 				      	<label for=""> Catatan </label>
-				      	<input type="text" name="catatan" class="form-control">
+				      	<input type="text" name="konten" class="form-control">
 				      </div>
+				    <div class="form-group">
+				    	<label for=""> Beri Rating </label>
+				      	<div class="form-check">
+						  <input class="form-check-input" type="radio" name="bintang" id="exampleRadios1" value="1" checked>
+						  <label class="form-check-label" for="exampleRadios1">
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star-o"></i>
+						    <i class="fa fa-star-o"></i>
+						    <i class="fa fa-star-o"></i>
+						    <i class="fa fa-star-o"></i>
+						  </label>
+						</div>
+						<div class="form-check">
+						  <input class="form-check-input" type="radio" name="bintang" id="exampleRadios2" value="2">
+						  <label class="form-check-label" for="exampleRadios2">
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star-o"></i>
+						    <i class="fa fa-star-o"></i>
+						    <i class="fa fa-star-o"></i>
+						  </label>
+						</div>
+						<div class="form-check">
+						  <input class="form-check-input" type="radio" name="bintang" id="exampleRadios3" value="3">
+						  <label class="form-check-label" for="exampleRadios3">
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star-o"></i>
+						    <i class="fa fa-star-o"></i>
+						  </label>
+						</div>
+						<div class="form-check">
+						  <input class="form-check-input" type="radio" name="bintang" id="exampleRadios4" value="4">
+						  <label class="form-check-label" for="exampleRadios4">
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star-o"></i>
+						  </label>
+						</div>
+						<div class="form-check">
+						  <input class="form-check-input" type="radio" name="bintang" id="exampleRadios5" value="5">
+						  <label class="form-check-label" for="exampleRadios5">
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						    <i class="fa fa-star"></i>
+						  </label>
+						</div>
+					</div>
 				      <div class="form-group">
 				      	<label for=""> Bukti Barang Telah Diterima </label>
 				      	<input type="file" id="foto" onchange="readFoto(event)" name="bukti" class="form-control" accept="image/*" required>
@@ -414,15 +528,14 @@
 				      </div>
 				      </div>
 				      <div class="modal-footer">
-						<button data-toggle="modal" data-target="#Modal{{$p->id}}" data-toggle="tooltip" data-placement="top" title="Diterima" class="btn btn-success" style="font-size: 12pt; padding: 10px; border-radius: 50%; height: 50px; width: 50px">
-							<i class="fa fa-check"></i>
-						</button>
+						<button type="submit" class="btn btn-success"><i class="fa fa-comment"></i></button>
 				      </div>
 				    </div>
 				  </div>
 				</div>
 				</form>
 				@endforeach
+			@endforeach
 
 <!--============================
 =            Footer            =

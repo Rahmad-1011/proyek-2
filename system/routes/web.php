@@ -27,11 +27,12 @@ use App\Http\Controllers\TransaksiController;
 */
 	Route::get('beranda', [ClientController::class, 'Beranda']);
 		Route::get('produk', [ClientController::class, 'ListProduk']);
-		Route::post('produk/cari', [ClientController::class, 'CariProduk']);
+		Route::post('produk', [ClientController::class, 'CariProduk']);
 		Route::get('produk/{produk}', [ClientController::class, 'DetailProduk']);
 		//Toko
 		Route::get('toko', [ClientController::class, 'ListToko']);
 		Route::get('toko/{user}', [ClientController::class, 'DetailToko']);
+		Route::post('toko/{user}', [ClientController::class, 'CariProdukToko']);
 	
 
 Route::get('/maok/login', [AuthController::class, 'showLogin']);
@@ -130,11 +131,11 @@ Route::group(['middleware'=>['auth']], function(){
 		Route::post('konfirmasi-pemesanan/{id}', [ClientController::class, 'KonfirmasiPemesanan']);
 
 		//pembayaran
-		Route::get('pembayaran/{pesanan_detail}', [ClientController::class, 'Pembayaran']);
+		Route::get('pembayaran/{pesanan}', [ClientController::class, 'Pembayaran']);
 		Route::post('konfirmasi-pembayaran/{pesanan}', [ClientController::class, 'KonfirmasiPembayaran']);
 
 		//Konfirmasi Barang Sampai
-		Route::post('konfirmasi-barang/{pesanan}', [ClientController::class, 'KonfirmasiBarangSampai']);
+		Route::post('konfirmasi-barang/{pesanan_detail}', [ClientController::class, 'KonfirmasiBarangSampai']);
 
 
 		Route::get('/list-produk', function () {

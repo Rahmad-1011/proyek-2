@@ -4,7 +4,7 @@
 			<div class="col-md-12">
 				<!-- Advance Search -->
 				<div class="advance-search">
-					<form action="{{url('produk/cari')}}" method="post">
+					<form action="{{url('produk')}}" method="post">
 						<div class="form-row">
 							@csrf
 							<div class="form-group col-md-10">

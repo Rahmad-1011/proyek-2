@@ -9,7 +9,7 @@
 						<!-- User Name -->
 						<h5 class="text-center">{{$user->nama}}</h5>
 						<p>Joined {!! date('d M Y', strtotime($user->created_at)) !!}</p>
-						<a href="user-profile.html" class="btn btn-main-sm" style="background-color: #117A65; border-radius: 20px;">Edit Profile</a>
+						<a href="{{url('profile')}}" class="btn btn-main-sm" style="background-color: #117A65; border-radius: 20px;">Edit Profile</a>
 					</div>
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">

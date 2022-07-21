@@ -33,7 +33,7 @@
 					<div class="product-meta">
 						<ul class="list-inline">
 							<li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="">{{$produk->penjual->nama}}</a></li>
-							<li class="list-inline-item"><i class="fa fa-folder-open-o"></i> Kategori<a href="">{{$produk->kategori->nama}}</a></li>
+							<li class="list-inline-item"><i class="fa fa-tag"></i> Kategori<a href="">{{$produk->kategori->nama}}</a></li>
 						</ul>
 					</div>
 
@@ -57,17 +57,17 @@
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact"
-								 aria-selected="false">Reviews</a>
+								 aria-selected="false">Penilaian</a>
 							</li>
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-								<h3 class="tab-title">Product Description</h3>
+								<h3 class="tab-title">Deskripsi Produk</h3>
 								<p>{!!nl2br($produk->deskripsi)!!}</p>
 
 							</div>
 							<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-								<h3 class="tab-title">Product Specifications</h3>
+								<h3 class="tab-title">Spesifikasi Produk</h3>
 								<table class="table table-bordered product-table">
 									<tbody>
 										<tr>
@@ -98,69 +98,42 @@
 								</table>
 							</div>
 							<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-								<h3 class="tab-title">Product Review</h3>
+								<h3 class="tab-title">Penilaian Produk</h3>
 								<div class="product-review">
+								@foreach($komentars as $komentar)
 									<div class="media">
 										<!-- Avater -->
-										<img src="images/user/user-thumb.jpg" alt="avater">
+										@if(!empty($komentar->user->foto))
+    									   <img style="width: 90px; height: 90px; border-radius: 50%;" src="{{url('public')}}/{{$komentar->user->foto}}" class="img-fluid">
+    								    @else
+    									   <img style="width: 90px; height: 90px; border-radius: 50%;" src="{{url('public')}}/Admin/assets/img/user.png">
+    								    @endif
 										<div class="media-body">
 											<!-- Ratings -->
 											<div class="ratings">
 												<ul class="list-inline">
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
+													@for($i =1; $i<= $komentar->bintang; $i++)
+														<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>
+													@endfor
+													@for($j = $komentar->bintang+1; $j<=5; $j++)
+														<li class="list-inline-item"><i class="fa fa-star"></i></li>
+													@endfor
 												</ul>
 											</div>
 											<div class="name">
-												<h5>Jessica Brown</h5>
+												<h5>{{$komentar->user->nama}}</h5>
 											</div>
 											<div class="date">
-												<p>Mar 20, 2018</p>
+												<p>{{$komentar->updated_at->diffForHumans()}}</p>
 											</div>
 											<div class="review-comment">
 												<p>
-													Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape
-													riamipsa eaque.
+													{!!nl2br($komentar->konten)!!}
 												</p>
 											</div>
 										</div>
 									</div>
-									<div class="review-submission">
-										<h3 class="tab-title">Submit your review</h3>
-										<!-- Rate -->
-										<div class="rate">
-											<div class="starrr"></div>
-										</div>
-										<div class="review-submit">
-											<form action="#" class="row">
-												<div class="col-lg-6">
-													<input type="text" name="name" id="name" class="form-control" placeholder="Name">
-												</div>
-												<div class="col-lg-6">
-													<input type="email" name="email" id="email" class="form-control" placeholder="Email">
-												</div>
-												<div class="col-12">
-													<textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
-												</div>
-												<div class="col-12">
-													<button type="submit" class="btn btn-main">Sumbit</button>
-												</div>
-											</form>
-										</div>
-									</div>
+								@endforeach
 								</div>
 							</div>
 						</div>
@@ -172,6 +145,20 @@
 					<div class="widget price text-center shadow" style="background-color: #117A65; border-radius: 10px;">
 						<h4>Harga</h4>
 						<p>Rp.{{number_format($produk->harga)}}</p>
+						<div class="product-ratings">
+							<span style="color: #fff">{{$komentars->count()}} Penilaian</span>
+							@php
+								$b = number_format($bintang)
+							@endphp
+							<ul class="list-inline">
+								@for($i =1; $i<= $b; $i++)
+									<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>
+								@endfor
+								@for($j = $b+1; $j<=5; $j++)
+									<li class="list-inline-item"><i class="fa fa-star"></i></li>
+								@endfor
+							</ul>
+						</div>
 					</div>
 					<!-- Safety tips widget -->
 					<div class="widget disclaimer text-center shadow">
@@ -199,12 +186,7 @@
 							</ul>
 						</form>
 					</div>
-					<!-- Map Widget -->
-					<div class="widget map">
-						<div class="map">
-							<div id="map_canvas" data-latitude="51.507351" data-longitude="-0.127758"></div>
-						</div>
-					</div>
+					
 
 				</div>
 			</div>

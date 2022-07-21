@@ -37,7 +37,7 @@
           <div class="row d-flex align-items-stretch">
           	@foreach($list_toko as $user)
             <div class="col-sm-6 col-md-4 d-flex mb-5 align-items-stretch">
-              <div class="card bg-light shadow">
+              <div class="card bg-light shadow" style="width: 100%">
                 <div class="card-header text-muted border-bottom-0">
                   =
                 </div>

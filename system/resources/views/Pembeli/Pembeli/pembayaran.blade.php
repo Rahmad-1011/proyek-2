@@ -25,11 +25,11 @@
 <section class="ad-post bg-gray py-5">
     <div class="container">
       <div class="row">
-        <h2 style="color: #117A65">Pembayaran Barang</h2>
+        <h2 style="color: #117A65">Pembayaran Pesanan</h2>
       </div>
-        <form action="{{url('konfirmasi-pembayaran', $pesanan_detail->id)}}" method="POST" enctype="multipart/form-data">
+        <form action="{{url('konfirmasi-pembayaran', $pesanan->id)}}" method="POST" enctype="multipart/form-data">
           @csrf
-          <input type="hidden" name="id" value="{{$pesanan_detail->pesanan_id}}">
+          <input type="hidden" name="id" value="{{$pesanan->id}}">
             <!-- Post Your ad start -->
             <fieldset class="border border-gary p-4 mb-3 my-5 shadow">
                     <div class="row">
@@ -49,6 +49,7 @@
                                 </tr>
                               </thead>
                               <tbody style="text-align: center">
+                                @foreach($pesanan_details as $pesanan_detail)
                                 <tr>
                                   <td class="product-thumb">
                                     <img width="80px" height="auto" src="{{url('public')}}/{{$pesanan_detail->produk->foto}}" alt="image description">
@@ -73,6 +74,7 @@
                                     <span>Rp.{{number_format($pesanan_detail->jumlah_harga)}}</span>
                                   </td>
                                 </tr>
+                                @endforeach
                               </tbody>
                             </table>
                         </div>
@@ -81,12 +83,12 @@
                             <div class="col-lg-6 col-sm-4">
                             </div>
                             <div class="col-lg-4 col-sm-4" style="text-align: right;">
-                              <span style="font-size: 10pt;"> Jumlah Harga Pesanan : ( {{$pesanan_detail->jumlah}} Produk )</span><br><br>
-                              <span style="font-size: 10pt;"> Total Harga Pesanan : ( {{$pesanan_detail->jumlah}} Produk ) + Jasa {{$pesanan_detail->pesanan->kurir->nama}}</span>
+                              <span style="font-size: 10pt;"> Jumlah Harga Pesanan : </span><br><br>
+                              <span style="font-size: 10pt;"> Total Harga Pesanan + Jasa {{$pesanan->kurir->nama}} : </span>
                             </div>
                             <div class="col-lg-2 col-sm-4" style="text-align: right">
-                              <span>Rp. {{number_format($pesanan_detail->pesanan->jumlah_harga)}}</span><br><br>
-                              <span style="font-size: 14pt; color: #117A65">Rp. {{number_format($pesanan_detail->pesanan->jumlah_harga+$pesanan_detail->pesanan->kurir->tarif)}}</span>
+                              <span>Rp. {{number_format($pesanan->jumlah_harga)}}</span><br><br>
+                              <span style="font-size: 14pt; color: #117A65">Rp. {{number_format($pesanan->jumlah_harga+$pesanan_detail->pesanan->kurir->tarif)}}</span>
                             </div>
                           </div>
                         </div>

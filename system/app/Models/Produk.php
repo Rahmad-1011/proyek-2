@@ -26,5 +26,9 @@ class Produk extends Model{
     function pesanan_detail(){
     	return $this->hasMany(PesananDetail::class, 'produk_id');
     }
+
+    function komentar(){
+    	return $this->hasMany(Komentar::class, 'produk_id');
+    }
 	
 }

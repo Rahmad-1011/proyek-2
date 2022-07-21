@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use App\Models\Komentar;
 use App\Models\User;
 use App\Models\Produk;
+use App\Models\Pesanan;
+use App\Models\PesananDetail;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -20,6 +22,8 @@ class KomentarController extends Controller{
 
 		return view('Toko.Komentar.balas-komentar', $data);
 	}
+
+	
 	
 	function PostKomentar(Request $request){
 		$request->request->add(['users_id' => auth()->user()->id]);
