@@ -17,12 +17,12 @@
 							<th>Nama Penerima</th>
 							<th>Barang Yang Dipesan</th>
 							<th>Jumlah Pesanan</th>
-							<th>Total Harga</th>
+							<th>Jumlah Harga</th>
 							<th>Asal Toko</th>
 							<th>Status</th>
 						</thead>
 						<tbody style="text-align: center; color: #000">
-							@foreach($list_pesanan_all as $pesanan)
+							@foreach($list_pesanan_all->sortBy('status') as $pesanan)
 							<tr>
 								<td style="text-align: center; ">{{$loop->iteration}}</td>
 								<td style="text-align: center; ">
@@ -36,25 +36,25 @@
 								<td style="text-align: left;">{{$pesanan->pesanan->nama_penerima}}</td>
 								<td>{{$pesanan->produk->nama}}</td>
 								<td>{{$pesanan->jumlah}} pcs</td>
-								<td>Rp. {{number_format($pesanan->pesanan->total_harga)}}</td>
+								<td>Rp. {{number_format($pesanan->jumlah_harga)}}</td>
 								<td>{{$pesanan->produk->penjual->nama}}</td>
 								<td>
 									@if($pesanan->status == '2')
-									<button class="btn btn-danger" style="width: 100%; font-size: 10pt">
+									<span class="badge badge-danger" style="width: 100%; font-size: 10pt">
 						                Belum Dibayar
-						            </button>
+						            </span>
 									@elseif($pesanan->status == '3')
-									<button class="btn btn-warning" style="width: 100%; font-size: 10pt">
+									<span class="badge badge-warning" style="width: 100%; font-size: 10pt">
 						                Belum Dikirim
-						            </button>
+						            </span>
 					                @elseif($pesanan->status == '4')
-					                <button class="btn btn-success" style="width: 100%; font-size: 10pt">
+					                <span class="badge badge-success" style="width: 100%; font-size: 10pt">
 					                	Pesanan Sudah Dikirim
-					                </button>
+					                </span>
 					                @else($pesanan->status == '5')
-					                <button type="button" class="btn btn-primary" style="width: 100%; font-size: 10pt" data-toggle="modal" data-target="#Detail{{$pesanan->id}}">
+					                <span class="badge badge-primary" style="width: 100%; font-size: 10pt" data-toggle="modal" data-target="#Detail{{$pesanan->id}}">
 					                	Pesanan Sudah Diterima
-					                </button>
+					                </span>
 					                @endif
 								</td>
 							</tr>
@@ -78,12 +78,12 @@
 							<th>Nama Penerima</th>
 							<th>Barang Yang Dipesan</th>
 							<th>Jumlah Pesanan</th>
-							<th>Total Harga</th>
+							<th>Jumlah Harga</th>
 							<th>Asal Toko</th>
 							<th>Status</th>
 						</thead>
 						<tbody style="text-align: center; color: #000">
-							@foreach($list_pesanan_done as $pesanan)
+							@foreach($list_pesanan_done->sortBy('status') as $pesanan)
 							<tr>
 								<td style="text-align: center; ">{{$loop->iteration}}</td>
 								<td style="text-align: center; ">
@@ -97,29 +97,29 @@
 								<td style="text-align: left;">{{$pesanan->pesanan->nama_penerima}}</td>
 								<td>{{$pesanan->produk->nama}}</td>
 								<td>{{$pesanan->jumlah}} pcs</td>
-								<td>Rp. {{number_format($pesanan->pesanan->total_harga)}}</td>
+								<td>Rp. {{number_format($pesanan->jumlah_harga)}}</td>
 								<td>{{$pesanan->produk->penjual->nama}}</td>
 								<td>
 									@if($pesanan->status == '2')
-									<button class="btn btn-danger" style="width: 100%; font-size: 10pt">
+									<span class="badge badge-danger" style="width: 100%; font-size: 10pt">
 						                Belum Dibayar
-						            </button>
+						            </span>
 									@elseif($pesanan->status == '3')
-									<button class="btn btn-warning" style="width: 100%; font-size: 10pt">
+									<span class="badge badge-warning" style="width: 100%; font-size: 10pt">
 						                Belum Dikirim
-						            </button>
+						            </span>
 					                @elseif($pesanan->status == '4')
-					                <button class="btn btn-success" style="width: 100%; font-size: 10pt">
+					                <span class="badge badge-success" style="width: 100%; font-size: 10pt">
 					                	Pesanan Sudah Dikirim
-					                </button>
+					                </span>
 					                @elseif($pesanan->status == '5')
-					                <button type="button" class="btn btn-primary" style="width: 100%; font-size: 10pt">
+					                <span class="badge badge-primary" style="width: 100%; font-size: 10pt">
 					                	Pesanan Sudah Diterima
-					                </button>
+					                </span>
 					                @elseif($pesanan->status == '6')
-					                <button type="button" class="btn btn-info" style="width: 100%; font-size: 10pt">
+					                <span class="badge badge-info" style="width: 100%; font-size: 10pt">
 					                	Transaksi Selesai
-					                </button>
+					                </span>
 					                @endif
 								</td>
 							</tr>

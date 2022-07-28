@@ -14,6 +14,9 @@
 				<div class="card-body">
 					<section class="content">
 						<div class="container-fluid">
+											<form action="{{url('Toko/profile')}}" method="post" enctype="multipart/form-data">
+												@csrf
+												@method("PUT")
 							<div class="row">
 								<div class="col-md-4">
 									<div class="card card-primary card-outline">
@@ -29,8 +32,6 @@
 											<h3 class="profile-username text-center">{{$user->nama}}</h3>
 
 											<p class="text-muted text-center">{{$user->email}}</p>
-											<form action="{{url('Toko/profile')}}" method="post" enctype="multipart/form-data">
-												@csrf
 												<div class="form-group">
 													<label for="" class="control-label"><i class="fa fa-pencil-alt"></i> Edit Foto Profil </label>
 													<input type="file" id="foto" onchange="readFoto(event)" class="form-control" name="foto" accept="image/*">
@@ -86,7 +87,6 @@
 															<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-save"></i> Simpan</button>
 														</div>
 													</div>
-												</form>
 											</div>
 											<div class="col-md-12 mt-2">
 												<div class="row">
@@ -96,6 +96,7 @@
 												</div>
 											</div>
 										</div>
+												</form>
 									</div>
 								</div>
 							</div>

@@ -102,7 +102,7 @@
                                 <li><span class="fa-li" style="font-size: 12pt;"><i class="fa fa-money"></i></span> Harga: Rp. {{number_format($produk->harga)}}</li>
                               </ul>
                               <?php 
-                                $komentars = \App\Models\Komentar::where('produk_id', $produk->id)->get();
+                                $komentars = \App\Models\Komentar::where('produk_id', $produk->id)->where('parent', 0)->get();
                                 $jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
 
                                 if($komentars->count() > 0){
@@ -137,7 +137,6 @@
                               <div class="card-footer">
                                 <div class="text-right">
                                     <div class="btn-group">
-                                    <button class="btn btn-info mr-2" data-toggle="modal" data-target="#exampleModal{{$produk->id}}" style="border-radius: 5px;"><i class="fa fa-comments"></i> <span class="badge badge-danger"> {{$produk->komentar->count()}} </span></button>
                           <a href="{{url('Toko/produk', $produk->id)}}" class="btn btn-primary mr-1" style="width: 40px; border-radius: 5px;"><i class="fa fa-info"></i></a>
                           <a href="{{url('Toko/produk', $produk->id)}}/edit" class="btn btn-warning mr-1" style="width: 40px; border-radius: 5px;"><i class="fa fa-edit"></i></a>
                           @include('Toko.template.utils.delete', ['url'=>url('Toko/produk', $produk->id)])

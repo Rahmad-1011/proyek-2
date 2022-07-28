@@ -56,19 +56,16 @@ class TokoController extends Controller
         return json_encode($city);
     }
 
-    public function Update(Request $request){
-        $request->validate([
-            'email' => 'required|unique:users',
-        ]);
+    public function update(){
 
-    	$user = User::where('id', Auth::user()->id)->first();
-    	$user->nama = request('nama');
-    	$user->no_hp = request('no_hp');
-    	$user->alamat = request('alamat');
-		$user->email= request('email');
-        $user->pembayaran_nama = request('pembayaran_nama');
-        $user->pembayaran_nomor = request('pembayaran_nomor');
-		$user->handleUploadFoto();
+        $user = User::where('id', Auth::user()->id)->first();
+    	$user-> nama = request('nama');
+    	$user-> no_hp = request('no_hp');
+    	$user-> alamat = request('alamat');
+		$user-> email = request('email');
+        $user-> pembayaran_nama = request('pembayaran_nama');
+        $user-> pembayaran_nomor = request('pembayaran_nomor');
+		$user-> handleUploadFoto();
 		$user-> update();
     	
         return redirect('Toko/profile')->with('success', 'Edit Profil Berhasil');

@@ -29,7 +29,11 @@
 			<!-- Left sidebar -->
 			<div class="col-md-8">
 				<div class="product-details">
-					<h1 class="product-title">{{$produk->nama}}</h1>
+					<h1 class="product-title">{{$produk->nama}}
+						@if($produk->stok == 0)
+						<span class="badge badge-danger" style="font-size: 8pt"> Stok Habis </span>
+						@endif
+					</h1>
 					<div class="product-meta">
 						<ul class="list-inline">
 							<li class="list-inline-item"><i class="fa fa-user-o"></i> By <a href="">{{$produk->penjual->nama}}</a></li>
@@ -100,7 +104,7 @@
 							<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 								<h3 class="tab-title">Penilaian Produk</h3>
 								<div class="product-review">
-								@foreach($komentars as $komentar)
+								@foreach($komentars->sortByDesc('updated_at')->where('parent',0) as $komentar)
 									<div class="media">
 										<!-- Avater -->
 										@if(!empty($komentar->user->foto))
@@ -108,7 +112,7 @@
     								    @else
     									   <img style="width: 90px; height: 90px; border-radius: 50%;" src="{{url('public')}}/Admin/assets/img/user.png">
     								    @endif
-										<div class="media-body">
+										<div class="media-body shadow">
 											<!-- Ratings -->
 											<div class="ratings">
 												<ul class="list-inline">
@@ -121,16 +125,27 @@
 												</ul>
 											</div>
 											<div class="name">
-												<h5>{{$komentar->user->nama}}</h5>
-											</div>
-											<div class="date">
-												<p>{{$komentar->updated_at->diffForHumans()}}</p>
+												<h5>{{$komentar->user->nama}}, <span style="font-size: 8pt">{{$komentar->updated_at->diffForHumans()}}</span></h5>
 											</div>
 											<div class="review-comment">
-												<p>
+												<p style="color: #000">
 													{!!nl2br($komentar->konten)!!}
 												</p>
+												<img style="width: 20%" src="{{url("public/$komentar->bukti")}}" alt="">
 											</div>
+											@foreach($komentar->childs as $child)
+											<div class="review-comment mt-4" style="border-top: #0E6655 solid 1px;">
+												<p style="color: #000; margin-top: 10px">
+													balasan dari toko
+												</p>
+												<p style="color: #000; margin-top: -10px">
+													<a href="{{url('toko', $child->user_id)}}"><b>{{$child->user->nama}}</b></a>, <span style="font-size: 8pt">{{$child->updated_at->diffForHumans()}}</span>
+												</p>
+												<p style="color: #000; padding-left: 10px">
+													{{$child->konten}}
+												</p>
+											</div>
+											@endforeach
 										</div>
 									</div>
 								@endforeach

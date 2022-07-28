@@ -29,7 +29,7 @@
 				                        <li><span class="fa-li" style="font-size: 12pt;"><i class="fa fa-money"></i></span> Harga: Rp. {{number_format($produk->harga)}}</li>
 				                      </ul>
 				                      <?php 
-												$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->get();
+												$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->where('parent', 0)->get();
 												$jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
 
 												if($komentars->count() > 0){
@@ -64,7 +64,7 @@
 				                <div class="card-footer">
 				                	<div class="text-right">
 				                    	<div class="btn-group">
-				                    	<button class="btn btn-info mr-2" data-toggle="modal" data-target="#exampleModal{{$produk->id}}" style="border-radius: 5px;"><i class="fa fa-comments"></i> <span class="badge badge-danger"> {{$produk->komentar->count()}} </span></button>
+				                    	<button class="btn btn-info mr-2" data-toggle="modal" data-target="#exampleModal{{$produk->id}}" style="border-radius: 5px;"><i class="fa fa-comments"></i> <span class="badge badge-danger"> {{$produk->komentar->where('parent',0)->count()}} </span></button>
 										<a href="{{url('Toko/produk', $produk->id)}}" class="btn btn-primary mr-1" style="width: 40px; border-radius: 5px;"><i class="fa fa-info"></i></a>
 										<a href="{{url('Toko/produk', $produk->id)}}/edit" class="btn btn-warning mr-1" style="width: 40px; border-radius: 5px;"><i class="fa fa-edit"></i></a>
 										@include('Toko.template.utils.delete', ['url'=>url('Toko/produk', $produk->id)])
@@ -100,9 +100,9 @@
       <div class="modal-body">
     	<div class="row">
     		<div class="col-md-12">
-    			<div class="card">
-    				@foreach($komentars as $komentar)
-    				<div class="row mt-3 ml-2 mr-2">
+    				@foreach($komentars->sortByDesc('updated_at')->where('parent', 0) as $komentar)
+    			<div class="card shadow" style="border: #0E6655 solid 1px">
+    				<div class="row mt-3 mb-3 ml-2 mr-2">
 	    				<div class="col-md-1">
 	    					@if(!empty($komentar->user->foto))
 	    						<img style="width: 50px; height: 50px; border-radius: 50%;" src="{{url('public')}}/{{$komentar->user->foto}}" class="img-fluid">
@@ -113,27 +113,52 @@
 	    				<div class="col-md-11">
 		    				<span><b>{{$komentar->user->nama}}</b>, {{$komentar->updated_at->diffForHumans()}}
 		    					<ul class="list-inline">
-													@for($i =1; $i<= $komentar->bintang; $i++)
-														<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>
-													@endfor
-													@for($j = $komentar->bintang+1; $j<=5; $j++)
-														<li class="list-inline-item"><i class="fa fa-star"></i></li>
-													@endfor
-												</ul>
+									@for($i =1; $i<= $komentar->bintang; $i++)
+										<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>
+									@endfor
+									@for($j = $komentar->bintang+1; $j<=5; $j++)
+										<li class="list-inline-item"><i class="fa fa-star"></i></li>
+									@endfor
+								</ul>
 		    				</span>
-			    			<div class="card ml-2 mt-2" style="border: #0E6655 solid 1px">
+			    			<div class="ml-2 mt-2">
 			    				<p style="padding-left: 10px; margin-top: auto; margin-bottom: auto;">{{$komentar->konten}}</p>
+			    				<form action="{{url('Toko/produk/balas-komentar', $komentar->id)}}" method="post">
+			    					@csrf
+			    					<div class="form-group">
+				    					<input type="hidden" value="{{$komentar->id}}" name="parent">
+				    					<input type="hidden" value="{{$produk->id}}" name="produk_id">
+				    					<input type="hidden" value="{{Auth::user()->id}}" name="user_id">
+				    					<div class="row">
+				    						<div class="col-md-10">
+				    							<input class="form-control mt-2" type="text" name="konten" placeholder="Balas Komentar">
+				    						</div>
+				    						<div class="col-md-2">
+				    							<button type="submit" class="btn btn-info mt-1 float-right mt-2"><i class="fa fa-paper-plane"></i> Balas</button>
+				    						</div>
+				    					</div>
+				    					
+				    					
+				    				</div>
+			    				</form>
+			    				@foreach($komentar->childs as $child)
+			    				<div class="card">
+			    					<div class="card-body" style="border: #0E6655 solid 1px; margin-top: 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; border-top-right-radius: 30px">
+				    					<span>Balasan Dari Toko</span><br>
+				    					<span><b>{{$child->user->nama}}</b>, {{$child->updated_at->diffForHumans()}}</span><br>
+				    					<p style="padding-left: 10px; margin-top: auto; margin-bottom: auto;">{{$child->konten}}</p>
+			    					</div>
+			    				</div>
+			    				@endforeach
 			    			</div>
 		    			</div>
 	    			</div>
-	    			@endforeach
 	    		</div>
+	    			@endforeach
     		</div>
     	</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>

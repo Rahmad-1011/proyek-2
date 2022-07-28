@@ -78,8 +78,8 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="section-title">
-					<h2>Produk Terbaru</h2>
-					<p>Produk yang baru dirilis toko-toko MAOK</p>
+					<h2>Produk Rekomendasi</h2>
+					<p>Produk yang direkomendasikan untuk Anda</p>
 				</div>
 			</div>
 		</div>
@@ -87,7 +87,22 @@
 			<!-- offer 01 -->
 			<div class="col-lg-12">
 				<div class="trending-ads-slide">
-					@foreach($list_produk as $produk)
+					@foreach($list_produk_rekomendasi as $produk)
+					<?php 
+						$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->where('parent',0)->get();
+						$jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
+
+						if($komentars->count() > 0){
+							$bintang = $jumlah_bintang/$komentars->count();
+						}
+						else{
+							$bintang = 0;
+						}
+
+						$b = number_format($bintang)
+					?>
+
+					@if($b >=3 )
 					<div class="col-sm-12 col-lg-4">
 						<!-- product card -->
 						<div class="product-item bg-light shadow">
@@ -99,7 +114,13 @@
 									</a>
 								</div>
 								<div class="card-body">
-								    <h4 class="card-title"><a href="{{url('produk', $produk->id)}}">{{$produk->nama}}</a></h4>
+								    <h4 class="card-title"><a href="{{url('produk', $produk->id)}}">{{$produk->nama}}</a>
+								    	@if($produk->stok == 0)
+											<span class="badge badge-danger" style="font-size: 8pt"> Stok Habis </span>
+										@else
+											<span class="badge badge-success" style="font-size: 8pt"> Stok Ada </span>
+										@endif
+								    </h4>
 								    <ul class="list-inline product-meta">
 								    	<li class="list-inline-item">
 								    		<a href="{{url('produk/kategori', $produk->id_kategori)}}"><i class="fa fa-tag"></i>{{$produk->kategori->nama}}</a>
@@ -116,20 +137,7 @@
 								    <p class="card-text"><span style="font-size: 8pt">Rp</span>{{number_format($produk->harga)}}</p>
 								    <div class="product-ratings">
 										
-										<?php 
-										$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->get();
-										$jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
-
-										if($komentars->count() > 0){
-											$bintang = $jumlah_bintang/$komentars->count();
-										}
-										else{
-											$bintang = 0;
-										}
-										 ?>
-										@php
-											$b = number_format($bintang)
-										@endphp
+										
 										<span>{{$komentars->count()}} Penilaian</span>
 										<ul class="list-inline">
 											@for($i =1; $i<= $b; $i++)
@@ -144,6 +152,96 @@
 							</div>
 						</div>
 					</div>
+					@endif
+
+					@endforeach
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="popular-deals section bg-gray" style="margin-top: -100px">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="section-title">
+					<h2>Produk Terbaru</h2>
+					<p>Produk terbaru dari MAOK</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- offer 01 -->
+			<div class="col-lg-12">
+				<div class="trending-ads-slide">
+					@foreach($list_produk->sortByDesc('created_at') as $produk)
+					<?php 
+						$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->where('parent',0)->get();
+						$jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
+
+						if($komentars->count() > 0){
+							$bintang = $jumlah_bintang/$komentars->count();
+						}
+						else{
+							$bintang = 0;
+						}
+
+						$b = number_format($bintang)
+					?>
+
+					@if($b >=3 )
+					<div class="col-sm-12 col-lg-4">
+						<!-- product card -->
+						<div class="product-item bg-light shadow">
+							<div class="card">
+								<div class="thumb-content">
+									<!-- <div class="price">$200</div> -->
+									<a href="{{url('produk', $produk->id)}}">
+										<img class="card-img-top img-fluid" style="width: 100%; height: 240px" src="{{url("public/$produk->foto")}}" alt="Card image cap">
+									</a>
+								</div>
+								<div class="card-body">
+								    <h4 class="card-title"><a href="{{url('produk', $produk->id)}}">{{$produk->nama}}</a>
+								    	@if($produk->stok == 0)
+											<span class="badge badge-danger" style="font-size: 8pt"> Stok Habis </span>
+										@else
+											<span class="badge badge-success" style="font-size: 8pt"> Stok Ada </span>
+										@endif
+								    </h4>
+								    <ul class="list-inline product-meta">
+								    	<li class="list-inline-item">
+								    		<a href="{{url('produk/kategori', $produk->id_kategori)}}"><i class="fa fa-tag"></i>{{$produk->kategori->nama}}</a>
+								    	</li>
+								    	<li class="list-inline-item">
+								    		<a href="#"><i class="fa fa-calendar"></i>{!! date('d M Y', strtotime($produk->updated_at)) !!}</a>
+								    	</li>
+								    </ul>
+								    <ul class="list-inline product-meta">
+								    	<li class="list-inline-item">
+								    		<a href="{{url('produk/kategori', $produk->id_kategori)}}"><i class="fa fa-vcard"></i>{{$produk->penjual->nama}}</a>
+								    	</li>
+								    </ul>
+								    <p class="card-text"><span style="font-size: 8pt">Rp</span>{{number_format($produk->harga)}}</p>
+								    <div class="product-ratings">
+										
+										
+										<span>{{$komentars->count()}} Penilaian</span>
+										<ul class="list-inline">
+											@for($i =1; $i<= $b; $i++)
+												<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>
+											@endfor
+											@for($j = $b+1; $j<=5; $j++)
+												<li class="list-inline-item"><i class="fa fa-star"></i></li>
+											@endfor
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					@endif
+
 					@endforeach
 				</div>
 			</div>

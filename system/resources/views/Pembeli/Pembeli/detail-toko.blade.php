@@ -32,16 +32,16 @@
 			<div class="col-md-3">
 				<div class="category-sidebar">
 					<div class="widget user text-center shadow">
-						@if(!empty($user->foto))
-    						<img class="rounded-circle img-fluid mb-5 px-5" style="width: 90px; height: 90px; border-radius: 50%;" src="{{url("public/$user->foto")}}" class="img-fluid">
+						@if(!empty($toko->foto))
+    						<img style="width: 90px; height: 90px; border-radius: 50%;" src="{{url("public/$toko->foto")}}" class="img-fluid">
     					@else
-    						<img style="width: 90px; height: 90px; border-radius: 50%; margin-bottom: 10px;" src="{{url('public')}}/Admin/assets/img/user.png">
+    						<img style="width: 90px; height: 90px; border-radius: 50%;" src="{{url('public')}}/Admin/assets/img/user.png">
     					@endif
-						<h4>{{$user->nama}}</h4>
-						<p class="member-time">{{$user->nama_pemilik}}</p>
+						<h4>{{$toko->nama}}</h4>
+						<p class="member-time">{{$toko->nama_pemilik}}</p>
 						<p class="member-time">
-							Alamat : {{$user->alamat}} <br><br>
-							<strong>No. HP {{$user->no_hp}}</strong><br>
+							Alamat : {{$toko->alamat}} <br><br>
+							<strong>No. HP {{$toko->no_hp}}</strong><br>
 
 						</p>
 					</div>
@@ -62,7 +62,7 @@
 						</div> -->
 						<div class="col-md-12">
 							<div class="advance-search">
-								<form action="{{url('toko', $user->id)}}" method="post">
+								<form action="{{url('toko', $toko->id)}}" method="post">
 									@csrf
 									<div class="form-row">
 										<div class="form-group col-md-10">
@@ -93,6 +93,12 @@
 									</div>
 									<div class="card-body">
 									    <h4 class="card-title"><a href="{{url('produk', $produk->id)}}">{{$produk->nama}}</a></h4>
+									    	@if($produk->stok == 0)
+												<span class="badge badge-danger" style="font-size: 8pt"> Stok Habis </span>
+												@else
+												<span class="badge badge-success" style="font-size: 8pt"> Stok Ada </span>
+												@endif
+									    
 									    <ul class="list-inline product-meta">
 									    	<li class="list-inline-item">
 									    		<a href="{{url('produk/kategori', $produk->id_kategori)}}"><i class="fa fa-tag"></i>{{$produk->kategori->nama}}</a>
@@ -103,13 +109,13 @@
 									    </ul>
 									    <ul class="list-inline product-meta">
 									    	<li class="list-inline-item">
-									    		<a href="{{url('toko', $user->id)}}"><i class="fa fa-vcard"></i>{{$produk->penjual->nama}}</a>
+									    		<a href="{{url('toko', $toko->id)}}"><i class="fa fa-vcard"></i>{{$produk->penjual->nama}}</a>
 									    	</li>
 									    </ul>
 									    <p class="card-text"><span style="font-size: 8pt">Rp</span>{{number_format($produk->harga)}}</p>
 									    <div class="product-ratings">
 									    	<?php 
-											$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->get();
+											$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->where('parent',0)->get();
 											$jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
 
 											if($komentars->count() > 0){
@@ -122,7 +128,7 @@
 											@php
 												$b = number_format($bintang)
 											@endphp
-											<span>{{$komentars->count()}} Penilaian</span>
+											<span>{{$komentars->where('parent',0)->count()}} Penilaian</span>
 											<ul class="list-inline">
 												@for($i =1; $i<= $b; $i++)
 													<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>

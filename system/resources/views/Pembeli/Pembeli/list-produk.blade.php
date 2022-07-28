@@ -46,6 +46,12 @@
 										</div>
 										<div class="card-body">
 										    <h4 class="card-title"><a href="{{url('produk', $produk->id)}}">{{$produk->nama}}</a></h4>
+										    	@if($produk->stok == 0)
+												<span class="badge badge-danger" style="font-size: 8pt"> Stok Habis </span>
+												@else
+												<span class="badge badge-success" style="font-size: 8pt"> Stok Ada </span>
+												@endif
+										    
 										    <ul class="list-inline product-meta">
 										    	<li class="list-inline-item">
 										    		<a href="{{url('produk/kategori', $produk->id_kategori)}}"><i class="fa fa-tag"></i>{{$produk->kategori->nama}}</a>
@@ -62,7 +68,7 @@
 										    <p class="card-text"><span style="font-size: 8pt">Rp</span>{{number_format($produk->harga)}}</p>
 										    <div class="product-ratings">
 										    	<?php 
-												$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->get();
+												$komentars = \App\Models\Komentar::where('produk_id', $produk->id)->where('parent', 0)->get();
 												$jumlah_bintang = \App\Models\Komentar::where('produk_id', $produk->id)->sum('bintang');
 
 												if($komentars->count() > 0){
@@ -75,7 +81,7 @@
 												@php
 													$b = number_format($bintang)
 												@endphp
-												<span>{{$komentars->count()}} Penilaian</span>
+												<span>{{$komentars->where('parent',0)->count()}} Penilaian</span>
 												<ul class="list-inline">
 													@for($i =1; $i<= $b; $i++)
 														<li class="list-inline-item"><i class="fa fa-star" style="color: #ffe400"></i></li>

@@ -27,9 +27,12 @@ class TransaksiController extends Controller
 		$pesanan->status = 6;
 		$pesanan->save();
 
-		$pesanan_detail = PesananDetail::where('pesanan_id', $pesanan->id)->first();
-		$pesanan_detail->status =6;
-		$pesanan_detail->save();
+		$pesanan_details = PesananDetail::where('pesanan_id', $pesanan->id)->get();
+        foreach ($pesanan_details as $pesanan_detail){
+            $pesanan_detail->status =6;
+            $pesanan_detail->update();
+        }
+		
 
 		return redirect('Admin/transaksi')->with('success', 'Konfirmasi Transaksi Berhasil');
     }

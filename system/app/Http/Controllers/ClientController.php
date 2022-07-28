@@ -19,11 +19,11 @@ class ClientController extends Controller
 {
 
 	function Beranda(){
-		$data['list_produk'] = Produk::orderBy('updated_at','desc')->paginate(10);
-		$data['list_produk_rekomendasi'] = Produk::paginate(4);
+		$data['list_produk'] = Produk::where('stok', '>=', '1')->paginate(6);
+		$data['list_produk_rekomendasi'] = Produk::where('stok', ">=", '1')->paginate(6);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
 
-		$data['komentars'] = Komentar::where('produk_id', $data['list_produk_rekomendasi'])->get();
+		$data['komentars'] = Komentar::where('produk_id', $data['list_produk_rekomendasi'])->where('parent',0)->get();
 		$jumlah_bintang = Komentar::where('produk_id', $data['list_produk_rekomendasi'])->sum('bintang');
 
 		if($data['komentars']->count() > 0){
@@ -42,7 +42,7 @@ class ClientController extends Controller
 	}
 
 	function ListProduk(){
-		$data['list_produk'] = Produk::where('stok','>=','1')->paginate(15);
+		$data['list_produk'] = Produk::orderByRaw('RAND()')->paginate(15);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
 		return view('Pembeli.Pembeli.list-produk', $data);
 	}
@@ -95,7 +95,7 @@ class ClientController extends Controller
 		$data['user'] = $user;
 		$data['produk'] = $produk;
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
-		$data['komentars'] = Komentar::where('produk_id', $produk->id)->get();
+		$data['komentars'] = Komentar::where('produk_id', $produk->id)->where('parent',0)->get();
 		$jumlah_bintang = Komentar::where('produk_id', $produk->id)->sum('bintang');
 
 		if($data['komentars']->count() > 0){
@@ -110,8 +110,8 @@ class ClientController extends Controller
 	}
 
 	function DetailToko(User $user){
-		$data['user'] = $user;
-		$data['list_produk'] = Produk::where('user_id', $user->id)->where('stok','>=','1')->paginate(15);
+		$data['toko'] = $user;
+		$data['list_produk'] = Produk::where('user_id', $user->id)->paginate(15);
 		$data['list_kategori'] = Kategori::withCount('produk')->get();
 		return view('Pembeli.Pembeli.detail-toko', $data);
 	}
@@ -257,6 +257,7 @@ class ClientController extends Controller
 		$pesanan->no_hp = request('no_hp');
 		$pesanan->pembayaran_id = request('pembayaran_id');
 		$pesanan->kurir_id = request('kurir_id');
+		$pesanan->total_harga = $pesanan->jumlah_harga+$pesanan->kurir->tarif;
 		$pesanan->status = 2;
 		$pesanan->update();
 
@@ -290,7 +291,6 @@ class ClientController extends Controller
 	public function KonfirmasiPembayaran(){
 		$pesanan = Pesanan::where('user_id', Auth::user()->id)->where('id', request('id'))->first();
 		// dd($pesanan);
-		$pesanan->total_harga = $pesanan->jumlah_harga+$pesanan->kurir->tarif;
 		$pesanan->handleUploadFoto();
 		$pesanan->status = 3;
 		$pesanan->update();
@@ -337,6 +337,7 @@ class ClientController extends Controller
 		}
 		else{
 			$komentar = new Komentar;
+			$komentar->parent = 0;
 			$komentar->produk_id = request('produk_id');
 			$komentar->user_id = Auth::user()->id;
 			$komentar->konten = request('konten');

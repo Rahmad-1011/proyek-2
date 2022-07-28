@@ -34,21 +34,23 @@
 						<td>Rp. {{number_format($pesanan->total_harga)}}</td>
 						<td>
 							@if($pesanan->status == '3')
-							<button class="btn btn-danger">
+							<span class="badge badge-danger">
 				                Belum Dikirim
-				            </button>
+				            </span>
 			                @elseif($pesanan->status == '4')
-			                <button class="btn btn-warning">
+			                <span class="badge badge-warning">
 			                	Pesanan Sudah Dikirim
-			                </button>
+			                </span>
 			                @elseif($pesanan->status == '5')
-			                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#Detail{{$pesanan->id}}">
+			                <span class="badge badge-success">
 			                	Pesanan Sudah Diterima
-			                </button>
+			                </span>
+			                <button type="button" class="btn btn-warning float-right" data-toggle="modal" data-target="#Detail{{$pesanan->id}}"><i class="fa fa-info"></i></button>
 			                @elseif($pesanan->status == '6')
-			                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Detail{{$pesanan->id}}">
+			                <span class="badge badge-info">
 			                	Transaksi Selesai
-			                </button>
+			                </span>
+			                <button type="button" class="btn btn-warning float-right" data-toggle="modal" data-target="#Detail{{$pesanan->id}}"><i class="fa fa-info"></i></button>
 			                @endif
 						</td>
 					</tr>
@@ -99,7 +101,17 @@
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				        <h5 class="modal-title" id="exampleModalLabel">{{$pesanan->nama_produk}}</h5>
+				        <h5 class="modal-title" id="exampleModalLabel">{{$pesanan->nama_produk}} 
+				        	@if($pesanan->status == 5)
+				        		<span class="badge badge-success float-right" style="font-size: 8pt">
+			                		Pesanan Sudah Diterima
+			                	</span>
+				        	@else($pesanan->status == 6)
+				        		<span class="badge badge-info float-right" style="font-size: 8pt">
+				                	Transaksi Selesai
+				                </span>
+				        	@endif
+				        </h5>
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          <span aria-hidden="true">&times;</span>
 				        </button>

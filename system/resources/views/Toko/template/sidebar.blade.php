@@ -13,6 +13,9 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
+          <?php 
+            $user = Auth::user();
+          ?>
           @if(!empty($user->foto))
               <img src="{{url("public/$user->foto")}}" class="img-fluid">
           @else
@@ -57,6 +60,21 @@
               <p>
                 Transaksi
               </p>
+              <?php
+                $pesanan = \App\Models\Pesanan::select('pesanan')
+                  ->join('pesanan_detail','pesanan_detail.pesanan_id','=','pesanan.id')
+                  ->join('produk','produk.id','=','pesanan_detail.produk_id')
+                  ->join('kurir', 'kurir.id', '=', 'pesanan.kurir_id')
+                  ->join('users', 'users.id','=','pesanan.user_id')
+                  ->select('pesanan.*','produk.*','users.*','pesanan_detail.*','pesanan.nama_penerima as nama_pemesan', 'pesanan_detail.status as status_pesanan', 'produk.nama as nama_produk', 'pesanan.foto as bukti_pembayaran', 'kurir.nama as nama_kurir', 'pesanan_detail.bukti as bukti_barang_diterima', 'pesanan.id as id_pesanan', 'pesanan.alamat as alamat_tujuan', 'pesanan.no_hp as no_hp_pemesan')
+                  ->where('pesanan.status',3)
+                  ->where('produk.user_id', Auth::id())
+                  ->get();
+              ?>
+              @if($pesanan->count() == 0)
+              @else
+                <span class="badge badge-danger float-right">{{$pesanan->count()}}</span>
+              @endif
             </a>
           </li>
           <!-- <li class="nav-item">

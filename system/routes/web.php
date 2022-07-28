@@ -80,11 +80,12 @@ Route::group(['middleware'=>['auth']], function(){
 			Route::get('beranda', [TokoController::class, 'beranda']);
 			Route::resource('produk', ProdukController::class);
 			Route::get('komentar', [KomentarController::class, 'Index']);
-			Route::get('komentar/{produk}', [KomentarController::class, 'BalasKomentar']);
+			Route::post('produk/balas-komentar/{komentar}', [KomentarController::class, 'BalasKomentar']);
 			Route::post('komentar/{produk}', [KomentarController::class, 'PostKomentar']);
 			Route::get('profile', [TokoController::class, 'Profile']);
-			Route::get('profile/{id}', [TokoController::class, 'GetCity']);
-			Route::post('profile', [TokoController::class, 'Update']);
+
+			Route::put('profile', [TokoController::class, 'update']);
+
 			Route::get('profile/ganti-password', [TokoController::class, 'GantiPassword']); 
 			Route::post('profile/ganti-password', [ProfileController::class, 'Store']);
 			Route::get('pesanan', [TokoController::class, 'Pesanan']);

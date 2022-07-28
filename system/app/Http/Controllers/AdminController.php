@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Models\Produk;
 use App\Models\Kategori;
 use App\Models\Gambar;
+use App\Models\Tarif;
+
 
 class AdminController extends Controller
 {
@@ -15,8 +17,7 @@ class AdminController extends Controller
         $data['produk'] = Produk::all();
         $data['toko'] = User::where('level',1)->get();
         $data['pembeli'] = User::where('level',2)->get();
-        $data['list_produk'] = Produk::where('user_id', Auth::user()->id)->paginate(15);
-        $data['list_kategori'] = Kategori::all();
+        $data['kategori'] = Kategori::all();
         return view('Admin.beranda', $data);
     }
 
@@ -63,6 +64,21 @@ class AdminController extends Controller
         $produk->delete();
 
         return redirect()->back()-> with('danger', 'Data berhasil dihapus');
+    }
+
+    function tarif(){
+        $data['list_tarif'] = Tarif::all();
+        return view('Admin.Tarif.index', $data);
+    }
+
+    function simpantarif(){
+        $alamat = new Tarif;
+        $alamat->kode_asal = request('kode_asal');
+        $alamat->kode_tujuan = request('kode_tujuan');
+        $alamat->tarif = request('tarif');
+        $alamat->save();
+
+        return redirect()->back()->with('success', 'Data Tarif berhasil ditambahkan');
     }
 
 }

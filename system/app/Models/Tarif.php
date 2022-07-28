@@ -6,11 +6,11 @@ use App\Models\Traits\Attributes\ProdukAttributes;
 use App\Models\Traits\Relations\ProdukRelations;
 use App\Models\User;
 
-class Alamat extends Model{
+class Tarif extends Model{
 
 	use ProdukAttributes, ProdukRelations;
 
-	protected $table = 'alamat';
+	protected $table = 'tarif';
 	protected $guarded = ['id'];
 
 	protected $casts = [
