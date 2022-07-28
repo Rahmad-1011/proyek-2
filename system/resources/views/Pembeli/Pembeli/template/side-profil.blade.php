@@ -4,7 +4,11 @@
 					<div class="widget user-dashboard-profile">
 						<!-- User Image -->
 						<div class="profile-thumb">
+							@if(!empty($user->foto))
 							<img style="width: 130px; height: 130px;" src="{{url("public/$user->foto")}}" alt="" class="rounded-circle">
+							@else
+							<img style="width: 90px; height: 90px; border-radius: 50%;" src="{{url('public')}}/Admin/assets/img/user.png">
+							@endif
 						</div>
 						<!-- User Name -->
 						<h5 class="text-center">{{$user->nama}}</h5>

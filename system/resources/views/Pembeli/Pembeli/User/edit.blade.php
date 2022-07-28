@@ -68,7 +68,12 @@
 									<!-- File chooser -->
 									<center>
 										<div class="profile-thumb">
+											@if(!empty($user->foto))
 											<img id="output" src="{{url("public/$user->foto")}}" alt="" class="rounded-circle" style="width: 50%">
+											@else
+											<img id="output" style="width: 50%;" src="{{url('public')}}/Admin/assets/img/user.png">
+											@endif
+											
 										</div>
 										<div class="form-group choose-file d-inline-flex">
 											<input type="file" id="foto" onchange="readFoto(event)" class="form-control-file mt-2 pt-1" name="foto" accept="image/*">

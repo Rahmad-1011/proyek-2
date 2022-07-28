@@ -31,6 +31,7 @@
 			<div class="col-md-12">
 				<!-- Header Contetnt -->
 				<div class="content-block">
+					@include('Admin.template.utils.notif')
 					<h1>Marketplace Oleh-oleh Khas Ketapang </h1>
 					<p>Carilah Oleh-oleh Khas Ketapang yang Kalian Inginkan <br>
 						Selamat Berbelanja
